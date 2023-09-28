@@ -84,4 +84,12 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    /**
+     * Updates the filter of the filtered person list by email.
+     * The filter works case-insensitive.
+     * @param predicate The predicate to test.
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredPersonListByEmail(Predicate<Person> predicate);
 }

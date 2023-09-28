@@ -38,6 +38,10 @@ public class StringUtil {
                 .anyMatch(preppedWord::equalsIgnoreCase);
     }
 
+    public static boolean containsStringIgnoreCase(String value, String query) {
+        return value.toLowerCase().contains(query.toLowerCase());
+    }
+
     /**
      * Returns a detailed message of the t, including the stack trace.
      */

@@ -129,6 +129,12 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void updateFilteredPersonListByEmail(Predicate<Person> predicate) {
+        requireNonNull(predicate);
+        filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
