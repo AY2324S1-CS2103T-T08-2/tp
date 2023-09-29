@@ -1,12 +1,11 @@
 ---
 layout: page
 title: Luo Jiale's Project Portfolio Page
-
 ---
 
 ### Project: NetworkBook
 
-NetworkBook is a desktop contact book application. It aims to help computing students and professionals from NUS to network with each other. The user interacts with it using a CLI, and it has a GUI created with JavaFX. 
+NetworkBook is a desktop contact book application. It aims to help computing students and professionals from NUS to network with each other. The user interacts with it using a CLI, and it has a GUI created with JavaFX.
 
 Given below are my contributions to the project.
 
@@ -40,3 +39,4 @@ Given below are my contributions to the project.
 * **Tools**:
 
   * Integrated a third party library / Github plugin ([\#...]())
+
