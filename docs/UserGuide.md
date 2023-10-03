@@ -86,6 +86,65 @@ Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 
+### Adding email to a contact: `add /email /index`
+
+You can add an email to an existing contact.
+A new email will be added to the contact's list of emails,
+and no new contact will be created.
+
+Format: `add /email [email] /index [index]`
+
+Example usage:
+* `add /email nknguyentdn@gmail.com /index 1`
+* `add /email test@example.com /index 2`
+
+Parameters:
+* `[email]` is a valid email (`@` (at sign) must be present, 
+and `.` (period) must be present after `@` (at sign)).
+* `[index]` is the index of the contact in the list.
+
+When the command succeeds:
+* `add /email nknguyentdn@gmail.com /index 1`
+
+`Noted, I have added email nknguyentdn@gmail.com to the contact at index 1.`
+
+* `add /email test@example.com /index 2`
+
+`Noted, I have added email test@example.com to the contact at index 2.`
+
+![add email success](images/add-remark/add-email.png)
+
+### Add link to a contact: `add /link /index`
+
+You can add a social link to an existing contact.
+A new link will be added to the contact's list of links,
+and no new contact will be created.
+
+Format: `add /link [link] [note] /index [index]`
+
+Example usage:
+* `add /link https://nknguyenhc.github.io/ website /index 1`
+* `add /link https://www.linkedin.com/in/nguyen-khoi-nguyen-6279341a8/ /index 2`
+
+Parameters:
+* `[link]` is a valid URL linking to a contact’s social media page.
+* `[note]` is a note on the URL for your own reference. 
+This parameter is optional, and should be separated.
+* `[index]` is the index of the person in the list.
+
+When the command succeeds:
+* `add /link https://nknguyenhc.github.io/ /note website /index 1`
+
+`Noted, I have added https://nknguyenhc.github.io/ 
+as the “website” of your contact at index 1.`
+
+* `add /link https://www.linkedin.com/in/nguyen-khoi-nguyen-6279341a8/ /index 2`
+
+`Noted, I have added https://www.linkedin.com/in/nguyen-khoi-nguyen-6279341a8/ 
+as a link to your contact at index 2.`
+
+![add link success](images/add-remark/add-link.png)
+
 ### Listing all persons : `list`
 
 Shows a list of all persons in the address book.
@@ -108,6 +167,51 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+
+### Update contact detail : `update /field /index`
+
+You can update contact details of existing contacts in your book.
+
+Format: `update /[parameter name] [new parameter value] /index [index]`
+
+Example usage:
+* `update /name nkn /index 1`
+* `update /link https://nknguyenhc.github.io/ /index 1`
+
+Parameters:
+
+* `[parameter name]` refers to the name of the parameters. Names can be:
+  * `name`
+  * `phone`
+  * `course`
+  * `specialisation`
+  * `email`
+  * `link`
+  * `grad`
+  * `priority`
+  * `tag`
+* `[new parameter value]` is the new value of the parameter. The new value must follow the formatting of the parameter.
+* `[index]` is the index of the contact in the list.
+
+When command succeeds:
+* `update /name nkn /index 1`
+
+`OK, the name of the contact at index 1 (Nguyen) has been updated to “nkn”.`
+
+* `update /link https://nknguyenhc.github.io/ /index 1`
+
+```
+There are multiple links to the contact at index 1. Which one do you wish to update?
+https://nknguyenhc.github.io/ip
+https://www.linkedin.com/in/nguyen-khoi-nguyen-6279341a8/
+```
+
+Assume that you in 1:
+
+`OK, a link of the contact at index 1 (Nguyen) has been updated
+from https://nknguyenhc.github.io/ip to https://nknguyenhc.github.io/.`
+
+![update success](images/edit/edit.png)
 
 ### Locating persons by name: `find`
 
