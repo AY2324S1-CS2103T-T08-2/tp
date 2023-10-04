@@ -9,6 +9,28 @@ NetworkBook is a **desktop contact book application**. You can use it to network
 
 ### <u>Category 1 - Add contact information</u>
 
+### Remove duplicate contacts on adding contact
+
+When adding contacts, if there is a contact with the same name, the program will inform the user that another contact with the same name already exists (not case sensitive)
+The program will then give the user the option of either creating a new contact (so there are 2 contacts with the same name), deleting the old contact and adding the new one, or aborting the current add operation
+
+Example usage:
+* `Hey! We noticed another contact with the same name below:`
+  * `Contact name`
+  * `Phone(s) [if it exists]`
+  * `Email(s) [if it exists]`
+* `Would you like to:`
+  * `1. Delete the old contact and add the new contact`
+  * `2. Add the new contact and keep the old contact`
+  * `3. Don’t add the new contact`
+
+When the command succeeds:
+* `Old contact deleted. New contact added.`
+* `New contact added`
+* `New contact discarded`
+
+![remove_duplicate](images/add-remark/remove-duplicate.png)
+
 ### Add email to a contact: `add /email /index`
 
 You can add an email to an existing contact.
@@ -70,7 +92,48 @@ as a link to your contact at index 2.`
 
 ![add link success](images/add-remark/add-link.png)
 
+### Add course to a contact: `add /course /index`
 
+You can add a course to an existing contact.  A new course will be added to the contact's list of courses, and no new contact will be created.
+The courses will be sorted by start_date. If there are multiple courses with the same code, the old course detail is replaced with the new course detail
+
+Format: `add /course [course code] /index [index] /date [start date] [end date]`
+
+Example usage:
+* `add /course CS1101S /index 1 /date 01-08-2022 07-12-2022`
+* `add /course CS2030S /index 2 /date 02-01-2023`
+
+Parameters:
+* `course code` is the code of a course the contact is taking. The course should not be longer than 8 characters (NUS course code).
+* `index` is the index of the contact.
+* `start date` is when the contact started taking this course.
+* `end date` is when the contact finished taking this course, optional (not finished reading the course).
+
+When the command succeeds:
+* `add /course CS1101S /index 1 /date 01-08-2022 07-12-2022`
+
+`Added course CS1101S to [name of contact]`
+
+![add priority success](images/add-remark/add-course.png)
+
+### Add specialisation: `add /spec /index`
+
+You can add a specialisation to an existing contact.  A new specialisation will be added to the contact's list of specialisations, and no new contact will be created.
+Specialisations are displayed in the order they are added.
+
+Format: `add /spec [specialisation] /index [index]`
+
+Example usage:
+* `add /spec Robotics & AI /index 1`
+
+Parameters:
+* `index` is the index of the contact.
+* `spec` is the specialisation that contact is taking.
+
+When the command succeeds:
+* `add /spec Robotics & AI /index 1`
+
+`Added specialisation Robotics & AI to [name of contact]`
 
 ### Assign priority levels: `add /priority /index` 
 
