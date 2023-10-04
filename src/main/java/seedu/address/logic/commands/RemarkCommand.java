@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 
 /**
@@ -22,7 +23,7 @@ public class RemarkCommand extends Command {
    public static final String MESSAGE_NOT_IMPLEMENTED_YET = "Sorry! The remark command has not been implemented yet.";
 
     @Override
-    public CommandResult execute(Model model) {
-        return new CommandResult(MESSAGE_NOT_IMPLEMENTED_YET);
+    public CommandResult execute(Model model) throws CommandException {
+        throw new CommandException(MESSAGE_NOT_IMPLEMENTED_YET);
     }
 }
