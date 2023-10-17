@@ -33,8 +33,8 @@ public class CommandTestUtil {
     public static final String VALID_LINK_BOB = "github.com/bob2000";
     public static final String VALID_GRADUATING_YEAR_AMY = "2000";
     public static final String VALID_GRADUATING_YEAR_BOB = "2026";
-    public static final String VALID_COURSE_AMY = "Computer Science";
-    public static final String VALID_COURSE_BOB = "Computer Engineering";
+    public static final String VALID_COURSE_AMY = "CS1101S";
+    public static final String VALID_COURSE_BOB = "CG1111A";
     public static final String VALID_SPECIALISATION_AMY = "Game Development";
     public static final String VALID_SPECIALISATION_BOB = "Internet of Things";
     public static final String VALID_TAG_HUSBAND = "husband";
