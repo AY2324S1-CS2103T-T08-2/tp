@@ -4,7 +4,6 @@ import static networkbook.testutil.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
 import org.junit.jupiter.api.Test;
 
 
@@ -66,7 +65,7 @@ public class CourseTest {
     }
 
     @Test
-    public void areChronologicalDates(){
+    public void areChronologicalDates() {
         String earlyDate = "01-01-2000";
         String midDate = "01-02-2000";
         String lateDate = "01-03-2000";
