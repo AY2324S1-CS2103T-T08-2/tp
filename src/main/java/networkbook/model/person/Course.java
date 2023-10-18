@@ -92,6 +92,8 @@ public class Course {
             return dtf.format(dtf.parse(date)).equals(date);
         } catch (DateTimeParseException e) {
             return false;
+        } catch (NullPointerException e) {
+            return false;
         }
     }
 
@@ -103,6 +105,8 @@ public class Course {
         try {
             return sdf.parse(end).after(sdf.parse(start));
         } catch (ParseException e) {
+            throw new IllegalArgumentException("Both dates must follow DD-MM-YYYY format");
+        } catch (NullPointerException e) {
             throw new IllegalArgumentException("Both dates must follow DD-MM-YYYY format");
         }
     }

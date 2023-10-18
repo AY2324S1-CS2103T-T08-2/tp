@@ -45,7 +45,7 @@ public class JsonAdaptedPersonTest {
             .map(JsonAdaptedProperty::new)
             .collect(Collectors.toList());
     private static final String VALID_GRADUATING_YEAR = "2000";
-    private static final String VALID_COURSE = "Computer Science";
+    private static final String VALID_COURSE = "CS1101S";
     private static final String VALID_SPECIALISATION = "Game Development";
     private static final List<JsonAdaptedProperty<Tag>> VALID_TAGS = TypicalPersons.BENSON.getTags().stream()
             .map(JsonAdaptedProperty::new)

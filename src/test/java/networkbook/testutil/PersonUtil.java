@@ -40,7 +40,7 @@ public class PersonUtil {
         person.getGraduatingYear().ifPresent(graduatingYear -> sb.append(CliSyntax.PREFIX_GRADUATING_YEAR)
                 .append(" ").append(graduatingYear.value).append(" "));
         person.getCourse().ifPresent(course -> sb.append(CliSyntax.PREFIX_COURSE).append(" ")
-                .append(course.value).append(" "));
+                .append(course.courseCode).append(" "));
         person.getSpecialisation().ifPresent(specialisation -> sb.append(CliSyntax.PREFIX_SPECIALISATION)
                 .append(" ").append(specialisation.value).append(" "));
         person.getTags().stream().forEach(
@@ -78,7 +78,7 @@ public class PersonUtil {
         descriptor.getGraduatingYear().ifPresent(graduatingYear -> sb.append(CliSyntax.PREFIX_GRADUATING_YEAR)
                 .append(" ").append(graduatingYear.value).append(" "));
         descriptor.getCourse().ifPresent(course -> sb.append(CliSyntax.PREFIX_COURSE).append(" ")
-                .append(course.value).append(" "));
+                .append(course.courseCode).append(" "));
         descriptor.getSpecialisation().ifPresent(specialisation -> sb.append(CliSyntax.PREFIX_SPECIALISATION)
                 .append(" ").append(specialisation.value).append(" "));
         if (descriptor.getTags().isPresent()) {
