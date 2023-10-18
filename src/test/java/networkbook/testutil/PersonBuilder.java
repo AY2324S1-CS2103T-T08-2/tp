@@ -28,7 +28,7 @@ public class PersonBuilder {
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_LINK = "github.com/amybeez";
     public static final String DEFAULT_GRADUATING_YEAR = "2000";
-    public static final String DEFAULT_COURSE = "CS1101";
+    public static final String DEFAULT_COURSE = "CS1101S";
     public static final String DEFAULT_SPECIALISATION = "Game Development";
     public static final String DEFAULT_PRIORITY = null;
 

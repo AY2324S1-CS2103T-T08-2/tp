@@ -147,14 +147,18 @@ public class ParserUtil {
      *
      */
     public static Course parseCourseInfo(String[] courseInfo) throws IllegalArgumentException {
-        if (courseInfo.length == 1) {
-            return new Course(courseInfo[0]);
-        } else if (courseInfo.length == 3) {
-            return new Course(courseInfo[0],
-                    new String[]{courseInfo[2].substring(0, 10)});
-        } else {
-            return new Course(courseInfo[0],
-                    new String[]{courseInfo[2].substring(0, 10), courseInfo[4].substring(0, 10)});
+        try {
+            if (courseInfo.length == 1) {
+                return new Course(courseInfo[0]);
+            } else if (courseInfo.length == 3) {
+                return new Course(courseInfo[0],
+                        new String[]{courseInfo[2].substring(0, 10)});
+            } else {
+                return new Course(courseInfo[0],
+                        new String[]{courseInfo[2].substring(0, 10), courseInfo[4].substring(0, 10)});
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException();
         }
     }
 

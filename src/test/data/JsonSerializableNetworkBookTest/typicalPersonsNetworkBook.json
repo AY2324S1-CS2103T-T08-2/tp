@@ -6,7 +6,7 @@
     "emails" : ["alice@example.com"],
     "links": [ "github.com/amybeez" ],
     "graduating year": "2000",
-    "course": "Computer Science",
+    "course": "CS1101S",
     "specialisation": "Game Development",
     "tags" : [ "friends" ]
   }, {
@@ -15,7 +15,7 @@
     "emails" : ["johnd@example.com"],
     "links": [ "www.facebook.com/john-d" ],
     "graduating year": "2000",
-    "course": "Computer Science",
+    "course": "CS1101S",
     "specialisation": "Game Development",
     "tags" : [ "owesMoney", "friends" ]
   }, {
@@ -24,7 +24,7 @@
     "emails" : ["heinz@example.com"],
     "links": [ "github.com/amybeez" ],
     "graduating year": "2000",
-    "course": "Computer Science",
+    "course": "CS1101S",
     "specialisation": "Game Development",
     "tags" : [ ]
   }, {
@@ -33,7 +33,7 @@
     "emails" : ["cornelia@example.com"],
     "links": [ "github.com/amybeez" ],
     "graduating year": "2000",
-    "course": "Computer Science",
+    "course": "CS1101S",
     "specialisation": "Game Development",
     "tags" : [ "friends" ]
   }, {
@@ -42,7 +42,7 @@
     "emails" : ["werner@example.com"],
     "links": [ "github.com/amybeez" ],
     "graduating year": "2000",
-    "course": "Computer Science",
+    "course": "CS1101S",
     "specialisation": "Game Development",
     "tags" : [ ]
   }, {
@@ -51,7 +51,7 @@
     "emails" : ["lydia@example.com"],
     "links": [ "github.com/amybeez" ],
     "graduating year": "2000",
-    "course": "Computer Science",
+    "course": "CS1101S",
     "specialisation": "Game Development",
     "tags" : [ ]
   }, {
@@ -60,7 +60,7 @@
     "emails" : ["anna@example.com"],
     "links": [ "github.com/amybeez" ],
     "graduating year": "2000",
-    "course": "Computer Science",
+    "course": "CS1101S",
     "specialisation": "Game Development",
     "tags" : [ ]
   } ]
