@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,11 @@ public class PersonCardTest {
 
     @BeforeEach
     public void setup() throws Exception {
-        ApplicationTest.launch(MainApp.class);
+        try {
+            ApplicationTest.launch(MainApp.class);
+        } catch (IllegalArgumentException e) {
+            Assertions.fail("Failed to launch");
+        }
     }
 
     @Test
