@@ -52,7 +52,8 @@ public class Course {
     /**
      * Constructs an {@code Course} with start and/or end dates.
      *
-     * @param
+     * @param course A valid course name.
+     * @param dates An array containing the start date and possibly end date of taking the course.
      */
     public Course(String course, String[] dates) {
         requireNonNull(course);

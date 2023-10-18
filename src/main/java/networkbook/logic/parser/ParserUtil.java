@@ -151,10 +151,10 @@ public class ParserUtil {
             return new Course(courseInfo[0]);
         } else if (courseInfo.length == 3) {
             return new Course(courseInfo[0],
-                    new String[]{courseInfo[2].substring(0,10)});
+                    new String[]{courseInfo[2].substring(0, 10)});
         } else {
             return new Course(courseInfo[0],
-                    new String[]{courseInfo[2].substring(0,10), courseInfo[4].substring(0,10)});
+                    new String[]{courseInfo[2].substring(0, 10), courseInfo[4].substring(0, 10)});
         }
     }
 
