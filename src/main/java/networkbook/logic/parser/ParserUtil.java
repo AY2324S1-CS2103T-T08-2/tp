@@ -143,6 +143,22 @@ public class ParserUtil {
     }
 
     /**
+     * Parse a {@code String[] courseInfo} into a {@code Course}.
+     *
+     */
+    public static Course parseCourseInfo(String[] courseInfo) throws IllegalArgumentException {
+        if (courseInfo.length == 1) {
+            return new Course(courseInfo[0]);
+        } else if (courseInfo.length == 3) {
+            return new Course(courseInfo[0],
+                    new String[]{courseInfo[2].substring(0,10)});
+        } else {
+            return new Course(courseInfo[0],
+                    new String[]{courseInfo[2].substring(0,10), courseInfo[4].substring(0,10)});
+        }
+    }
+
+    /**
      * Parses a {@code String specialisation} into an {@code Specialisation}.
      * Leading and trailing whitespaces will be trimmed.
      *

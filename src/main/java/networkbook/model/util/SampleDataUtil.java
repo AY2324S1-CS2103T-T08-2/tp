@@ -28,7 +28,7 @@ public class SampleDataUtil {
                     new UniqueList<Email>().setItems(List.of(new Email("alexyeoh@example.com"))),
                     new UniqueList<Link>().setItems(List.of(new Link("www.alexyeoh.net"))),
                     new GraduatingYear("2016"),
-                    new Course("IS1128", new String[] {"12-02-2000", "12-08-2000"}),
+                    new Course("IS1128", new String[] {"1-02-2000", "12-08-2000"}),
                     new Specialisation("Financial Technology"),
                     getTagSet("friends"), new Priority("low")),
             new Person(new Name("Bernice Yu"), new Phone("99272758"),

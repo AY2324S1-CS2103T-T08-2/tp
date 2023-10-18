@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import networkbook.commons.exceptions.IllegalValueException;
+import networkbook.logic.parser.ParserUtil;
 import networkbook.model.person.Course;
 import networkbook.model.person.Email;
 import networkbook.model.person.GraduatingYear;
@@ -143,10 +144,12 @@ class JsonAdaptedPerson {
 
         Course modelCourse = null;
         if (course != null) {
-            if (!Course.isValidCourse(course)) {
+            String[] courseInfo = course.split(" ");
+            try {
+                modelCourse = ParserUtil.parseCourseInfo(courseInfo);
+            } catch (IllegalArgumentException e) {
                 throw new IllegalValueException(Course.MESSAGE_CONSTRAINTS);
             }
-            modelCourse = new Course(course);
         }
 
         Specialisation modelSpecialisation = null;
