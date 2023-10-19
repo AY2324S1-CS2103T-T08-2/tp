@@ -13,20 +13,11 @@ public class Course {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Courses can take any value, but should not be blank.\n"
-                    + "Additionally, only the first letter of each word may be uppercase,\n"
-                    + "and more than one space between each word is not allowed\n"
-                    + "Acronyms (all uppercase) are also allowed.";
-
-    /*
-     * The first character of the specialisation must not be a whitespace,
-     * otherwise " " (a blank string) becomes a valid input.
-     * Proceeding letters of a word should not be uppercase, unless...
-     */
-    public static final String NOT_ALL_CAPITALIZED_REGEX = "^[A-Za-z0-9][a-z0-9.,_-]{0,99}$";
-    /*
-     * The word is in all uppercase, such as for acronyms are also acceptable.
-     */
-    public static final String ALL_CAPITALIZED_REGEX = "^[A-Z]+$";
+            + "Additionally, multiple spaces is not allowed, and the course may not start with spaces";
+    public static final String DATE_CONSTRAINTS =
+            "Dates must always follow the DD-MM-YYYY format.";
+    public static final String DATE_TIMING_CONSTRAINTS =
+            "End date of the course must occur after the start date of the course!";
 
     private final String course;
     private final Optional<String> startDate;
@@ -75,15 +66,22 @@ public class Course {
      * Returns true if a given string is a valid course.
      */
     public static boolean isValidCourse(String test) {
-        if (test.startsWith(" ")) {
-            return false;
-        }
         for (String word : test.split(" ")) {
-            if (!(word.matches(NOT_ALL_CAPITALIZED_REGEX) || word.matches(ALL_CAPITALIZED_REGEX))) {
+            if (!(word.equals(""))) {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * Returns true if the given string is a valid date.
+     * A valid date must follow the DD-MM-YYYY format to avoid ambiguity, and actually exist.
+     *
+     * @param date A given string to be tested for date validity and format.
+     */
+    public static boolean isValidDate(String date) {
+        return false;
     }
 
     @Override
