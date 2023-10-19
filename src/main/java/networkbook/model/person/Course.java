@@ -3,6 +3,10 @@ package networkbook.model.person;
 import static java.util.Objects.requireNonNull;
 import static networkbook.commons.util.AppUtil.checkArgument;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Optional;
 
 /**
@@ -24,9 +28,9 @@ public class Course {
     private final Optional<String> endDate;
 
     /**
-     * Constructs a {@code Course}.
+     * Construct a {@code Course}.
      *
-     * @param course A valid course.
+     * @param course A valid course description.
      */
     public Course(String course) {
         requireNonNull(course);
@@ -37,37 +41,50 @@ public class Course {
     }
 
     /**
-     * Constructs a {@code Course} with start date
+     * Construct a {@code Course} with start date
+     *
+     * @param course A valid course description.
+     * @param startDate The date when the contact started taking the course.
      */
     public Course(String course, String startDate) {
         requireNonNull(course);
         requireNonNull(startDate);
         checkArgument(isValidCourse(course), MESSAGE_CONSTRAINTS);
-        // TODO: check validity of dates
+        checkArgument(isValidDate(startDate), DATE_CONSTRAINTS);
         this.course = course;
         this.startDate = Optional.of(startDate);
         this.endDate = Optional.empty();
     }
 
     /**
-     * Constructs a {@code Course} with start date and end date
+     * Construct a {@code Course} with start date and end date
+     *
+     * @param course A valid course description.
+     * @param startDate The date when the contact started taking the course.
+     * @param endDate The date after startDate when the contact finished the course.
      */
     public Course(String course, String startDate, String endDate) {
         requireNonNull(course);
         requireNonNull(startDate);
+        requireNonNull(endDate);
         checkArgument(isValidCourse(course), MESSAGE_CONSTRAINTS);
-        // TODO: check validity of dates and ensure endDate > startDate
+        checkArgument(isValidDate(startDate), DATE_CONSTRAINTS);
+        checkArgument(isValidDate(endDate), DATE_CONSTRAINTS);
+        checkArgument(areChronologicalDates(startDate, endDate), DATE_TIMING_CONSTRAINTS);
         this.course = course;
         this.startDate = Optional.of(startDate);
         this.endDate = Optional.of(endDate);
     }
 
     /**
-     * Returns true if a given string is a valid course.
+     * Return true if a given string is a valid course.
      */
     public static boolean isValidCourse(String test) {
+        if (test.startsWith(" ")) {
+            return false;
+        }
         for (String word : test.split(" ")) {
-            if (!(word.equals(""))) {
+            if ((word.equals(""))) {
                 return false;
             }
         }
@@ -75,20 +92,56 @@ public class Course {
     }
 
     /**
-     * Returns true if the given string is a valid date.
+     * Return true if the given string is a valid date.
      * A valid date must follow the DD-MM-YYYY format to avoid ambiguity, and actually exist.
      *
      * @param date A given string to be tested for date validity and format.
      */
     public static boolean isValidDate(String date) {
-        return false;
+        try {
+            DateTimeFormatter dtf = DateTimeFormatter
+                    .ofPattern("dd-MM-uuuu")
+                    .withResolverStyle(ResolverStyle.STRICT);
+            return dtf.format(dtf.parse(date)).equals(date);
+        } catch (DateTimeParseException | NullPointerException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Return true if the second given string corresponds with a date that is later than the first date.
+     *
+     * @param start A string representing an earlier date.
+     * @param end A string representing a later date.
+     * @throws IllegalArgumentException if DD-MM-YYYY format is not followed for either date.
+     */
+    public static boolean areChronologicalDates(String start, String end) throws IllegalArgumentException {
+        try {
+            DateTimeFormatter dtf = DateTimeFormatter
+                    .ofPattern("dd-MM-uuuu")
+                    .withResolverStyle(ResolverStyle.STRICT);
+            LocalDate startDate = LocalDate.parse(start, dtf);
+            LocalDate endDate = LocalDate.parse(end, dtf);
+            return endDate.isAfter(startDate);
+        } catch (DateTimeParseException | NullPointerException e) {
+            throw new IllegalArgumentException("Both dates must follow DD-MM-YYYY format");
+        }
     }
 
     @Override
     public String toString() {
-        return course;
+        StringBuilder tsb = new StringBuilder(course);
+        String start = startDateExists() ? " (Started: " + startDate.get() + ")" : "";
+        String end = endDateExists() ? " (Ended: " + endDate.get() + ")" : "";
+        return tsb.append(start).append(end).toString();
     }
 
+    /**
+     * Return true if two Courses have the same 'course' field
+     *
+     * @param other The object that is being compared to for equality
+     * @return True if the other object is a Course with the same 'course' field
+     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -111,6 +164,25 @@ public class Course {
 
     public String getCourse() {
         return course;
+    }
+
+    public String getStartDate() {
+        return startDateExists() ? startDate.get() : "";
+    }
+
+    public String getEndDate() {
+        return endDateExists() ? endDate.get() : "";
+    }
+
+    /*
+     * Check the existence of start and end dates.
+     */
+    public boolean startDateExists() {
+        return startDate.isPresent();
+    }
+
+    public boolean endDateExists() {
+        return endDate.isPresent();
     }
 
 }
