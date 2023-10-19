@@ -15,12 +15,12 @@ public class CourseTest {
         assertThrows(NullPointerException.class, () -> new Course(null));
         assertThrows(NullPointerException.class, () -> new Course(null, "01-01-2000"));
         assertThrows(NullPointerException.class, () -> new Course("Valid Course", null));
-        assertThrows(NullPointerException.class,
-                () -> new Course("Valid Course", "01-01-2000", null));
-        assertThrows(NullPointerException.class,
-                () -> new Course("Valid Course", null, "01-01-2000"));
-        assertThrows(NullPointerException.class,
-                () -> new Course(null, "01-01-1999", "01-01-2000"));
+        assertThrows(NullPointerException.class, () ->
+                new Course("Valid Course", "01-01-2000", null));
+        assertThrows(NullPointerException.class, () ->
+                new Course("Valid Course", null, "01-01-2000"));
+        assertThrows(NullPointerException.class, () ->
+                new Course(null, "01-01-1999", "01-01-2000"));
     }
 
     @Test
