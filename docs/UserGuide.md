@@ -19,6 +19,7 @@ On top of these advantages, we believe that contact management must be efficient
 If you are new here, visit our [getting started guide](#getting-started) to start getting connected on NetworkBook!
 
 ## Table of Contents
+*  
 {:toc}
 
 ## About This User Guide
