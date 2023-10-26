@@ -18,7 +18,7 @@ public class SortCommandParserTest {
     @Test
     public void parse_emptyArg_throwsParseException() {
         assertParseFailure(parser, "     ",
-                String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, SortCommand.MESSAGE_USAGE));
+                String.format(Messages.MESSAGE_MISSING_FIELD, CliSyntax.PREFIX_SORT_FIELD));
     }
 
     @Test
