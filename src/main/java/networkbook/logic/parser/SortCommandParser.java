@@ -35,10 +35,7 @@ public class SortCommandParser implements Parser<SortCommand> {
         Optional<String> fieldString = argMultimap.getValue(CliSyntax.PREFIX_SORT_FIELD);
         if (fieldString.isEmpty()) {
             throw new ParseException(
-                String.format(
-                        Messages.MESSAGE_INVALID_COMMAND_FORMAT,
-                        SortCommand.MESSAGE_USAGE
-                )
+                String.format(Messages.MESSAGE_MISSING_FIELD, CliSyntax.PREFIX_SORT_FIELD)
             );
         }
         SortField field = ParserUtil.parseSortField(fieldString.get());

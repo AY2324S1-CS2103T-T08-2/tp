@@ -21,7 +21,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         String trimmedArgs = args.trim();
         if (trimmedArgs.isEmpty()) {
             throw new ParseException(
-                    String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+                    String.format(Messages.MESSAGE_EMPTY_FIELD, FindCommand.COMMAND_WORD));
         }
 
         String[] nameKeyTerms = trimmedArgs.split("\\s+");
