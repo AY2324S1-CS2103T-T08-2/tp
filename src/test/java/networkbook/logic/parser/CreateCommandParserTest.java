@@ -23,7 +23,7 @@ import networkbook.model.person.Name;
 import networkbook.model.person.Person;
 import networkbook.model.person.Phone;
 import networkbook.model.person.Specialisation;
-import networkbook.model.tag.Tag;
+import networkbook.model.person.Tag;
 import networkbook.testutil.PersonBuilder;
 import networkbook.testutil.TypicalPersons;
 
@@ -59,32 +59,27 @@ public class CreateCommandParserTest {
     }
 
     @Test
-    public void parse_repeatedNonTagValue_failure() {
+    public void parse_repeatedSingleValuedField_failure() {
         String validExpectedPersonString = CommandTestUtil.NAME_DESC_BOB
                 + CommandTestUtil.PHONE_DESC_BOB + CommandTestUtil.EMAIL_DESC_BOB
                 + CommandTestUtil.LINK_DESC_BOB + CommandTestUtil.GRADUATION_DESC_BOB
                 + CommandTestUtil.COURSE_DESC_BOB + CommandTestUtil.SPECIALISATION_DESC_BOB
-                + CommandTestUtil.TAG_DESC_FRIEND;
+                + CommandTestUtil.PRIORITY_DESC_BOB + CommandTestUtil.TAG_DESC_FRIEND;
 
         // multiple names
         CommandParserTestUtil.assertParseFailure(parser,
                 CommandTestUtil.NAME_DESC_AMY + validExpectedPersonString,
                 Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_NAME));
 
-        // multiple phones
+        // multiple priorities
         CommandParserTestUtil.assertParseFailure(parser,
-                CommandTestUtil.PHONE_DESC_AMY + validExpectedPersonString,
-                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_PHONE));
+                CommandTestUtil.PRIORITY_DESC_AMY + validExpectedPersonString,
+                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_PRIORITY));
 
-        // multiple emails
+        // multiple graduations
         CommandParserTestUtil.assertParseFailure(parser,
-                CommandTestUtil.EMAIL_DESC_AMY + validExpectedPersonString,
-                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_EMAIL));
-
-        // multiple addresses
-        CommandParserTestUtil.assertParseFailure(parser,
-                CommandTestUtil.LINK_DESC_AMY + validExpectedPersonString,
-                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_LINK));
+                CommandTestUtil.GRADUATION_DESC_AMY + validExpectedPersonString,
+                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_GRADUATION));
 
         // multiple fields repeated
         CommandParserTestUtil.assertParseFailure(parser,
@@ -95,12 +90,8 @@ public class CreateCommandParserTest {
                         + validExpectedPersonString,
                 Messages.getErrorMessageForDuplicatePrefixes(
                         CliSyntax.PREFIX_NAME,
-                        CliSyntax.PREFIX_PHONE,
-                        CliSyntax.PREFIX_EMAIL,
-                        CliSyntax.PREFIX_LINK,
                         CliSyntax.PREFIX_GRADUATION,
-                        CliSyntax.PREFIX_COURSE,
-                        CliSyntax.PREFIX_SPECIALISATION));
+                        CliSyntax.PREFIX_PRIORITY));
 
         // invalid value followed by valid value
 
@@ -109,35 +100,10 @@ public class CreateCommandParserTest {
                 CommandTestUtil.INVALID_NAME_DESC + validExpectedPersonString,
                 Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_NAME));
 
-        // invalid email
-        CommandParserTestUtil.assertParseFailure(parser,
-                CommandTestUtil.INVALID_EMAIL_DESC + validExpectedPersonString,
-                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_EMAIL));
-
-        // invalid phone
-        CommandParserTestUtil.assertParseFailure(parser,
-                CommandTestUtil.INVALID_PHONE_DESC + validExpectedPersonString,
-                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_PHONE));
-
-        // invalid link
-        CommandParserTestUtil.assertParseFailure(parser,
-                CommandTestUtil.INVALID_LINK_DESC + validExpectedPersonString,
-                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_LINK));
-
         // invalid graduation date
         CommandParserTestUtil.assertParseFailure(parser,
                 CommandTestUtil.INVALID_GRADUATION_DESC + validExpectedPersonString,
                 Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_GRADUATION));
-
-        // invalid course
-        CommandParserTestUtil.assertParseFailure(parser,
-                CommandTestUtil.INVALID_COURSE_DESC + validExpectedPersonString,
-                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_COURSE));
-
-        // invalid specialisation
-        CommandParserTestUtil.assertParseFailure(parser,
-                CommandTestUtil.INVALID_SPECIALISATION_DESC + validExpectedPersonString,
-                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_SPECIALISATION));
 
         // valid value followed by invalid value
 
@@ -146,35 +112,10 @@ public class CreateCommandParserTest {
                 validExpectedPersonString + CommandTestUtil.INVALID_NAME_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_NAME));
 
-        // invalid email
-        CommandParserTestUtil.assertParseFailure(parser,
-                validExpectedPersonString + CommandTestUtil.INVALID_EMAIL_DESC,
-                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_EMAIL));
-
-        // invalid phone
-        CommandParserTestUtil.assertParseFailure(parser,
-                validExpectedPersonString + CommandTestUtil.INVALID_PHONE_DESC,
-                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_PHONE));
-
-        // invalid link
-        CommandParserTestUtil.assertParseFailure(parser,
-                validExpectedPersonString + CommandTestUtil.INVALID_LINK_DESC,
-                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_LINK));
-
         // invalid graduation date
         CommandParserTestUtil.assertParseFailure(parser,
                 validExpectedPersonString + CommandTestUtil.INVALID_GRADUATION_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_GRADUATION));
-
-        // invalid course
-        CommandParserTestUtil.assertParseFailure(parser,
-                validExpectedPersonString + CommandTestUtil.INVALID_COURSE_DESC,
-                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_COURSE));
-
-        // invalid specialisation
-        CommandParserTestUtil.assertParseFailure(parser,
-                validExpectedPersonString + CommandTestUtil.INVALID_SPECIALISATION_DESC,
-                Messages.getErrorMessageForDuplicatePrefixes(CliSyntax.PREFIX_SPECIALISATION));
     }
 
     @Test
@@ -392,6 +333,66 @@ public class CreateCommandParserTest {
                         + CommandTestUtil.SPECIALISATION_DESC_BOB
                         + CommandTestUtil.INVALID_TAG_DESC + CommandTestUtil.VALID_TAG_FRIEND,
                 Tag.MESSAGE_CONSTRAINTS);
+
+        String validExpectedPersonString = CommandTestUtil.NAME_DESC_BOB
+                + CommandTestUtil.PHONE_DESC_BOB + CommandTestUtil.EMAIL_DESC_BOB
+                + CommandTestUtil.LINK_DESC_BOB + CommandTestUtil.GRADUATION_DESC_BOB
+                + CommandTestUtil.COURSE_DESC_BOB + CommandTestUtil.SPECIALISATION_DESC_BOB
+                + CommandTestUtil.PRIORITY_DESC_BOB + CommandTestUtil.TAG_DESC_FRIEND;
+
+        // duplicate multi-valued field, invalid followed by valid
+
+        // invalid email
+        CommandParserTestUtil.assertParseFailure(parser,
+                CommandTestUtil.INVALID_EMAIL_DESC + validExpectedPersonString,
+                Email.MESSAGE_CONSTRAINTS);
+
+        // invalid phone
+        CommandParserTestUtil.assertParseFailure(parser,
+                CommandTestUtil.INVALID_PHONE_DESC + validExpectedPersonString,
+                Phone.MESSAGE_CONSTRAINTS);
+
+        // invalid link
+        CommandParserTestUtil.assertParseFailure(parser,
+                CommandTestUtil.INVALID_LINK_DESC + validExpectedPersonString,
+                Link.MESSAGE_CONSTRAINTS);
+
+        // invalid course
+        CommandParserTestUtil.assertParseFailure(parser,
+                CommandTestUtil.INVALID_COURSE_DESC + validExpectedPersonString,
+                Course.MESSAGE_CONSTRAINTS);
+
+        // invalid specialisation
+        CommandParserTestUtil.assertParseFailure(parser,
+                CommandTestUtil.INVALID_SPECIALISATION_DESC + validExpectedPersonString,
+                Specialisation.MESSAGE_CONSTRAINTS);
+
+        // duplicate multi-valued field, valid followed by invalid
+
+        // invalid email
+        CommandParserTestUtil.assertParseFailure(parser,
+                validExpectedPersonString + CommandTestUtil.INVALID_EMAIL_DESC,
+                Email.MESSAGE_CONSTRAINTS);
+
+        // invalid phone
+        CommandParserTestUtil.assertParseFailure(parser,
+                validExpectedPersonString + CommandTestUtil.INVALID_PHONE_DESC,
+                Phone.MESSAGE_CONSTRAINTS);
+
+        // invalid link
+        CommandParserTestUtil.assertParseFailure(parser,
+                validExpectedPersonString + CommandTestUtil.INVALID_LINK_DESC,
+                Link.MESSAGE_CONSTRAINTS);
+
+        // invalid course
+        CommandParserTestUtil.assertParseFailure(parser,
+                validExpectedPersonString + CommandTestUtil.INVALID_COURSE_DESC,
+                Course.MESSAGE_CONSTRAINTS);
+
+        // invalid specialisation
+        CommandParserTestUtil.assertParseFailure(parser,
+                validExpectedPersonString + CommandTestUtil.INVALID_SPECIALISATION_DESC,
+                Specialisation.MESSAGE_CONSTRAINTS);
 
         // two invalid values, only first invalid value reported
         CommandParserTestUtil.assertParseFailure(parser,

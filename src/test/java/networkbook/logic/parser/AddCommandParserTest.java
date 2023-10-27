@@ -16,7 +16,7 @@ import networkbook.model.person.Link;
 import networkbook.model.person.Phone;
 import networkbook.model.person.Priority;
 import networkbook.model.person.Specialisation;
-import networkbook.model.tag.Tag;
+import networkbook.model.person.Tag;
 import networkbook.testutil.AddPersonDescriptorBuilder;
 import networkbook.testutil.TypicalIndexes;
 

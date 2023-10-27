@@ -26,7 +26,7 @@ import networkbook.model.person.Name;
 import networkbook.model.person.Phone;
 import networkbook.model.person.Priority;
 import networkbook.model.person.Specialisation;
-import networkbook.model.tag.Tag;
+import networkbook.model.person.Tag;
 import networkbook.testutil.TypicalIndexes;
 
 public class EditCommandParserTest {
@@ -74,29 +74,29 @@ public class EditCommandParserTest {
         assertParseFailure(PARSER,
                 "1" + CommandTestUtil.VALID_PHONE_DESC + CommandTestUtil.VALID_INDEX_DESC
                         + CommandTestUtil.VALID_INDEX_DESC,
-                String.format(Messages.MESSAGE_MUST_BE_PRESENT, CliSyntax.PREFIX_PHONE));
+                String.format(Messages.MESSAGE_INDEX_MUST_BE_PRESENT, CliSyntax.PREFIX_PHONE));
     }
 
     @Test
     public void parse_listItemFieldWithoutIndexSpecified_failure() {
         assertParseFailure(PARSER,
                 "1" + CommandTestUtil.VALID_PHONE_DESC,
-                String.format(Messages.MESSAGE_MUST_BE_PRESENT, CliSyntax.PREFIX_PHONE));
+                String.format(Messages.MESSAGE_INDEX_MUST_BE_PRESENT, CliSyntax.PREFIX_PHONE));
         assertParseFailure(PARSER,
                 "1" + CommandTestUtil.VALID_EMAIL_DESC,
-                String.format(Messages.MESSAGE_MUST_BE_PRESENT, CliSyntax.PREFIX_EMAIL));
+                String.format(Messages.MESSAGE_INDEX_MUST_BE_PRESENT, CliSyntax.PREFIX_EMAIL));
         assertParseFailure(PARSER,
                 "1" + CommandTestUtil.VALID_LINK_DESC,
-                String.format(Messages.MESSAGE_MUST_BE_PRESENT, CliSyntax.PREFIX_LINK));
+                String.format(Messages.MESSAGE_INDEX_MUST_BE_PRESENT, CliSyntax.PREFIX_LINK));
         assertParseFailure(PARSER,
                 "1" + CommandTestUtil.VALID_COURSE_DESC,
-                String.format(Messages.MESSAGE_MUST_BE_PRESENT, CliSyntax.PREFIX_COURSE));
+                String.format(Messages.MESSAGE_INDEX_MUST_BE_PRESENT, CliSyntax.PREFIX_COURSE));
         assertParseFailure(PARSER,
                 "1" + CommandTestUtil.VALID_SPECIALISATION_DESC,
-                String.format(Messages.MESSAGE_MUST_BE_PRESENT, CliSyntax.PREFIX_SPECIALISATION));
+                String.format(Messages.MESSAGE_INDEX_MUST_BE_PRESENT, CliSyntax.PREFIX_SPECIALISATION));
         assertParseFailure(PARSER,
                 "1" + CommandTestUtil.VALID_TAG_DESC,
-                String.format(Messages.MESSAGE_MUST_BE_PRESENT, CliSyntax.PREFIX_TAG));
+                String.format(Messages.MESSAGE_INDEX_MUST_BE_PRESENT, CliSyntax.PREFIX_TAG));
     }
 
     @Test

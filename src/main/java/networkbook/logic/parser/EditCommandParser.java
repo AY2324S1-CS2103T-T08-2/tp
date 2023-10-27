@@ -24,7 +24,7 @@ import networkbook.model.person.Name;
 import networkbook.model.person.Phone;
 import networkbook.model.person.Priority;
 import networkbook.model.person.Specialisation;
-import networkbook.model.tag.Tag;
+import networkbook.model.person.Tag;
 
 /**
  * Parses input arguments and creates a new EditCommand object

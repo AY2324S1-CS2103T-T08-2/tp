@@ -97,6 +97,15 @@ public class UniqueList<T extends Identifiable<T>> implements Iterable<T> {
     }
 
     /**
+     * Removes the element at the index in the list.
+     * @param index The zero-based index of the element to remove.
+     */
+    public void removeAtIndex(int index) {
+        assert(index < this.internalList.size());
+        this.internalList.remove(index);
+    }
+
+    /**
      * Checks if this list is empty.
      */
     public boolean isEmpty() {

@@ -1,4 +1,4 @@
-package networkbook.model.tag;
+package networkbook.model.person;
 
 import static networkbook.testutil.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;

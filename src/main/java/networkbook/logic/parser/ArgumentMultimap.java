@@ -77,20 +77,36 @@ public class ArgumentMultimap {
     }
 
     /**
-     * Verifies that one and only one of the {@code prefixes} is present.
+     * Verifies that zero or one of the {@code prefixes} is present.
+     * @param prefixes
+     * @return null if no prefix is present, and the {@code Prefix} if exactly one is present.
+     * @throws ParseException when there are more than one prefix present.
      */
-    public Prefix verifyExactlyOneIsPresent(Prefix ... prefixes) throws ParseException {
+    public Prefix verifyAtMostOneIsPresent(Prefix ... prefixes) throws ParseException {
         assert prefixes.length > 0;
 
         Prefix result = null;
         for (Prefix prefix: prefixes) {
-            if (argMultimap.containsKey(prefix) && argMultimap.get(prefix).size() == 1) {
+            if (argMultimap.containsKey(prefix)) {
+                if (argMultimap.get(prefix).size() > 1) {
+                    throw new ParseException(Messages.MESSAGE_DUPLICATE_PREFIX);
+                }
                 if (result != null) {
                     throw new ParseException(Messages.MESSAGE_EXACTLY_ONE_FIELD);
                 }
                 result = prefix;
             }
         }
+        return result;
+    }
+
+    /**
+     * Verifies that one and only one of the {@code prefixes} is present.
+     */
+    public Prefix verifyExactlyOneIsPresent(Prefix ... prefixes) throws ParseException {
+        assert prefixes.length > 0;
+
+        Prefix result = verifyAtMostOneIsPresent(prefixes);
 
         if (result == null) {
             throw new ParseException(Messages.MESSAGE_EXACTLY_ONE_FIELD);
@@ -108,12 +124,25 @@ public class ArgumentMultimap {
         Prefix firstPresentPrefix = this.firstPresentPrefix(prefixesIfPresent);
         if (firstPresentPrefix != null) {
             if (!argMultimap.containsKey(prefixThenPresent) || argMultimap.get(prefixThenPresent).size() > 1) {
-                throw new ParseException(String.format(Messages.MESSAGE_MUST_BE_PRESENT, firstPresentPrefix));
+                throw new ParseException(String.format(Messages.MESSAGE_INDEX_MUST_BE_PRESENT, firstPresentPrefix));
             }
         } else {
             if (argMultimap.containsKey(prefixThenPresent)) {
                 throw new ParseException(Messages.MESSAGE_INDEX_CANNOT_BE_PRESENT);
             }
+        }
+    }
+
+    /**
+     * Verifies that the {@code prefix} as no value specified in the command.
+     * Pre-condition: the prefix has one and only one value.
+     * @param prefix
+     * @throws ParseException when the prefix has a non-empty value.
+     */
+    public void verifyPrefixHasEmptyValue(Prefix prefix) throws ParseException {
+        assert(argMultimap.get(prefix).size() == 1);
+        if (!getValue(prefix).get().isEmpty()) {
+            throw new ParseException(String.format(Messages.MESSAGE_VALUE_CANNOT_BE_PRESENT, prefix));
         }
     }
 

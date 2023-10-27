@@ -3,7 +3,7 @@ package networkbook.logic.commands.edit;
 import networkbook.commons.core.index.Index;
 import networkbook.commons.util.ToStringBuilder;
 import networkbook.logic.commands.exceptions.CommandException;
-import networkbook.model.tag.Tag;
+import networkbook.model.person.Tag;
 
 /**
  * Represents an action to edit tag of a person.

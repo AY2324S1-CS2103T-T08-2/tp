@@ -14,7 +14,7 @@ import networkbook.model.person.Person;
 import networkbook.model.person.Phone;
 import networkbook.model.person.Priority;
 import networkbook.model.person.Specialisation;
-import networkbook.model.tag.Tag;
+import networkbook.model.person.Tag;
 import networkbook.model.util.UniqueList;
 
 /**
@@ -52,12 +52,7 @@ public class CreateCommandParser implements Parser<CreateCommand> {
 
         argMultimap.verifyNoDuplicatePrefixesFor(
                 CliSyntax.PREFIX_NAME,
-                CliSyntax.PREFIX_PHONE,
-                CliSyntax.PREFIX_EMAIL,
-                CliSyntax.PREFIX_LINK,
                 CliSyntax.PREFIX_GRADUATION,
-                CliSyntax.PREFIX_COURSE,
-                CliSyntax.PREFIX_SPECIALISATION,
                 CliSyntax.PREFIX_PRIORITY
         );
 

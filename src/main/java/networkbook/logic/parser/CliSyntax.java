@@ -18,5 +18,6 @@ public class CliSyntax {
     public static final Prefix PREFIX_INDEX = new Prefix("/index");
     public static final Prefix PREFIX_SORT_FIELD = new Prefix("/by");
     public static final Prefix PREFIX_SORT_ORDER = new Prefix("/order");
-
+    public static final Prefix PREFIX_FILTER_FIELD = new Prefix("/with");
+    public static final Prefix PREFIX_FILTER_FIN = new Prefix("/taken");
 }

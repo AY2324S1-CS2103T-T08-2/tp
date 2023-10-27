@@ -17,7 +17,7 @@ import networkbook.model.person.PersonSortComparator.SortField;
 import networkbook.model.person.PersonSortComparator.SortOrder;
 import networkbook.model.person.Phone;
 import networkbook.model.person.Priority;
-import networkbook.model.tag.Tag;
+import networkbook.model.person.Tag;
 import networkbook.model.util.UniqueList;
 import networkbook.testutil.TypicalIndexes;
 

@@ -1,4 +1,4 @@
-package networkbook.model.tag;
+package networkbook.model.person;
 
 import static java.util.Objects.requireNonNull;
 import static networkbook.commons.util.AppUtil.checkArgument;

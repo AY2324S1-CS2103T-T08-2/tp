@@ -13,17 +13,19 @@ import networkbook.model.person.Priority;
  * Container for user visible messages.
  */
 public class Messages {
-    public static final String MESSAGE_EXACTLY_ONE_FIELD = "One and only one field can be edited at a time.";
-    public static final String MESSAGE_MUST_BE_PRESENT =
-            "Since %s is present, one and only one /index flag must be present.";
-    public static final String MESSAGE_INDEX_CANNOT_BE_PRESENT = "/index flag should not be indicated.";
+    public static final String MESSAGE_EXACTLY_ONE_FIELD = "One and only one field must be specified here.";
+    public static final String MESSAGE_DUPLICATE_PREFIX = "The same field cannot be specified twice here.";
+    public static final String MESSAGE_INDEX_MUST_BE_PRESENT =
+            "Since %s is present, one and only one /index prefix must be present.";
+    public static final String MESSAGE_INDEX_CANNOT_BE_PRESENT = "/index prefix should not be indicated here.";
+    public static final String MESSAGE_VALUE_CANNOT_BE_PRESENT = "No value should be specified after the %s prefix.";
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
     public static final String MESSAGE_INVALID_CONTACT_NAME = "Invalid name provided for contact to create!";
     public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid";
     public static final String MESSAGE_PERSONS_SORTED_OVERVIEW = "Here is your sorted list of contacts:"
             + "\n(%1$d persons listed)";
-    public static final String MESSAGE_DUPLICATE_FIELDS =
+    public static final String MESSAGE_DUPLICATE_SINGLE_VALUED_FIELDS =
             "Multiple values specified for the following single-valued field(s): ";
     public static final String MESSAGE_MISSING_FIELD = "This command requires a %1$s parameter!";
     public static final String MESSAGE_EMPTY_FIELD = "%1$s cannot contain zero parameters!";
@@ -37,7 +39,7 @@ public class Messages {
         Set<String> duplicateFields =
                 Stream.of(duplicatePrefixes).map(Prefix::toString).collect(Collectors.toSet());
 
-        return MESSAGE_DUPLICATE_FIELDS + String.join(" ", duplicateFields);
+        return MESSAGE_DUPLICATE_SINGLE_VALUED_FIELDS + String.join(" ", duplicateFields);
     }
 
     /**

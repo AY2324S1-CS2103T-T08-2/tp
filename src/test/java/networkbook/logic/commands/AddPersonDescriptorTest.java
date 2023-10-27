@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import networkbook.model.tag.Tag;
+import networkbook.model.person.Tag;
 import networkbook.model.util.UniqueList;
 import networkbook.testutil.AddPersonDescriptorBuilder;
 

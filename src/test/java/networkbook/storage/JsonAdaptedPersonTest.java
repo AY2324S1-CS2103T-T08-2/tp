@@ -18,7 +18,7 @@ import networkbook.model.person.Link;
 import networkbook.model.person.Name;
 import networkbook.model.person.Phone;
 import networkbook.model.person.Specialisation;
-import networkbook.model.tag.Tag;
+import networkbook.model.person.Tag;
 import networkbook.testutil.TypicalPersons;
 
 // TODO: add/amend tests based on individual attribute specification

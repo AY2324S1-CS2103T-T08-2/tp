@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import networkbook.logic.commands.exceptions.CommandException;
 import networkbook.model.person.Person;
-import networkbook.model.tag.Tag;
+import networkbook.model.person.Tag;
 import networkbook.model.util.UniqueList;
 
 public class EditTagActionTest {
