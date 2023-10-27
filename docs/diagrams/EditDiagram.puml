@@ -1,0 +1,87 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+Participant ":Logic" as logic LOGIC_COLOR
+Participant ":NetworkBookParser" as networkBookParser LOGIC_COLOR_T1
+Participant ":EditCommandParser" as editCommandParser LOGIC_COLOR_T2
+Participant ":EditAction" as editAction MODEL_COLOR
+Participant ":EditCommand" as editCommand MODEL_COLOR_T1
+Participant ":Model" as model MODEL_COLOR_T2
+Participant ":EditPersonDescriptor" as editPersonDescriptor MODEL_COLOR_T3
+
+-> logic : execute("edit" + details)
+activate logic
+
+logic -> networkBookParser : "edit" + details
+activate networkBookParser LOGIC_COLOR_T1
+
+create editCommandParser
+networkBookParser -> editCommandParser
+activate editCommandParser LOGIC_COLOR_T2
+
+editCommandParser --> networkBookParser
+deactivate editCommandParser
+
+networkBookParser -> editCommandParser : parse(details)
+activate editCommandParser LOGIC_COLOR_T2
+
+create editAction
+editCommandParser -> editAction : generateAction
+activate editAction MODEL_COLOR
+
+editAction --> editCommandParser : action
+deactivate editAction
+
+create editCommand
+editCommandParser -> editCommand : new EditCommand(index, action)
+activate editCommand MODEL_COLOR_T1
+
+editCommand --> editCommandParser : editCommand
+deactivate editCommand
+
+editCommandParser --> networkBookParser : editCommand
+deactivate editCommandParser
+
+networkBookParser --> logic : editCommand
+deactivate networkBookParser
+
+logic -> editCommand: execute(model)
+activate editCommand MODEL_COLOR_T1
+
+editCommand -> model : get p at index
+activate model MODEL_COLOR_T2
+
+model --> editCommand : p at index
+deactivate model
+
+create editPersonDescriptor
+editCommand -> editPersonDescriptor: person
+activate editPersonDescriptor MODEL_COLOR_T3
+
+editPersonDescriptor --> editCommand : editPersonDescriptor
+deactivate editPersonDescriptor
+
+editCommand -> editAction : edit(editPersonDescriptor)
+activate editAction MODEL_COLOR_T1
+
+editAction -> editPersonDescriptor : modify field
+
+editAction --> editCommand
+deactivate editAction
+
+editCommand -> editPersonDescriptor : toPerson()
+activate editPersonDescriptor MODEL_COLOR_T3
+
+editPersonDescriptor --> editCommand : new person
+deactivate editPersonDescriptor
+
+editCommand -> model : old p -> new p
+editCommand -> model : update list
+
+editCommand --> logic : command success
+deactivate editCommand
+
+<-- logic : command success
+
+@enduml

@@ -3,10 +3,9 @@ package networkbook.ui;
 import static networkbook.logic.commands.CommandTestUtil.VALID_COURSE_BOB;
 import static networkbook.logic.commands.CommandTestUtil.VALID_GRADUATION_BOB;
 import static networkbook.logic.commands.CommandTestUtil.VALID_GRADUATION_FULL_BOB;
+import static networkbook.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static networkbook.logic.commands.CommandTestUtil.VALID_SPECIALISATION_BOB;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -50,12 +49,30 @@ public class PersonCardTest {
     }
 
     @Test
+    public void constructor_noGraduation_showsBlank() {
+        Person person = new PersonBuilder().withName("Bob").withoutOptionalFields().build();
+        PersonCard personCard = new PersonCard(person, 1);
+        Label graduation = personCard.getGraduation();
+        assertEquals("Graduation: -", graduation.getText());
+        assertTrue(graduation.isVisible());
+    }
+
+    @Test
     public void constructor_hasValidCourse_showsValidCourse() {
         Person person = new PersonBuilder().withName("Bob").withCourses(List.of(VALID_COURSE_BOB)).build();
         PersonCard personCard = new PersonCard(person, 1);
         Label course = personCard.getCourse();
         assertEquals("Courses: [" + VALID_COURSE_BOB + "]", course.getText());
         assertTrue(course.isVisible());
+    }
+
+    @Test
+    public void constructor_hasValidPhones_showsValidPhones() {
+        Person person = new PersonBuilder().withName("Bob").withPhones(List.of(VALID_PHONE_BOB)).build();
+        PersonCard personCard = new PersonCard(person, 1);
+        Label phones = personCard.getPhones();
+        assertEquals("Phone: [" + VALID_PHONE_BOB + "]", phones.getText());
+        assertTrue(phones.isVisible());
     }
 
     @Test
@@ -71,7 +88,7 @@ public class PersonCardTest {
 
     @Test
     public void constructor_hasHighPriority_showsHighPriority() {
-        Person person = new PersonBuilder().withName("Bob").withPriority("High").build();
+        Person person = new PersonBuilder().withName("Bob").withoutOptionalFields().withPriority("High").build();
         PersonCard personCard = new PersonCard(person, 1);
         Label priority = personCard.getPriority();
         assertEquals("Priority: High", priority.getText());
@@ -79,12 +96,12 @@ public class PersonCardTest {
     }
 
     @Test
-    public void constructor_noPriority_notVisible() {
+    public void constructor_noPriority_showsBlank() {
         Person person = new PersonBuilder().withName("Bob").build();
         PersonCard personCard = new PersonCard(person, 1);
         Label priority = personCard.getPriority();
-        assertNull(null, priority.getText());
-        assertFalse(priority.isVisible());
+        assertEquals("Priority: -", priority.getText());
+        assertTrue(priority.isVisible());
     }
 
 }

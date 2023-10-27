@@ -7,7 +7,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <GridPane HBox.hgrow="ALWAYS">
@@ -16,25 +18,49 @@
     </columnConstraints>
     <VBox alignment="CENTER_LEFT" minHeight="105" GridPane.columnIndex="0">
       <padding>
-        <Insets top="5" right="5" bottom="5" left="15" />
+        <Insets bottom="5" left="15" right="5" top="5" />
       </padding>
-      <HBox spacing="5" alignment="CENTER_LEFT">
+      <HBox alignment="CENTER_LEFT" spacing="5">
         <Label fx:id="id" styleClass="cell_big_label">
           <minWidth>
             <!-- Ensures that the label text is never truncated -->
             <Region fx:constant="USE_PREF_SIZE" />
           </minWidth>
         </Label>
-        <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
+        <Label fx:id="name" styleClass="cell_big_label" text="\$first">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
       </HBox>
       <FlowPane fx:id="tags" />
       <Label fx:id="phones" styleClass="cell_small_label" text="\$phones" />
-      <Label fx:id="emails" styleClass="cell_small_label" text="\$emails" />
-      <Label fx:id="links" styleClass="cell_small_label" text="\$links" />
+         <HBox alignment="CENTER_LEFT" spacing="5">
+            <children>
+               <Label fx:id="emailsHeader" styleClass="cell_small_label" text="\$emailsHeader">
+                  <minWidth>
+                     <Region fx:constant="USE_PREF_SIZE" />
+                  </minWidth>
+               </Label>
+               <FlowPane fx:id="emails" alignment="CENTER_LEFT" styleClass="hyperlink_list" />
+            </children>
+         </HBox>
+         <HBox alignment="CENTER_LEFT" spacing="5">
+            <children>
+               <Label fx:id="linksHeader" styleClass="cell_small_label" text="\$linksHeader">
+                  <minWidth>
+                     <Region fx:constant="USE_PREF_SIZE" />
+                  </minWidth>
+               </Label>
+               <FlowPane fx:id="links" alignment="CENTER_LEFT" styleClass="hyperlink_list" />
+            </children>
+         </HBox>
       <Label fx:id="graduation" styleClass="cell_small_label" text="\$graduation" />
       <Label fx:id="courses" styleClass="cell_small_label" text="\$course" />
       <Label fx:id="specialisations" styleClass="cell_small_label" text="\$specialisation" />
       <Label fx:id="priority" styleClass="cell_small_label" text="\$priority" />
     </VBox>
+      <rowConstraints>
+         <RowConstraints />
+      </rowConstraints>
   </GridPane>
 </HBox>

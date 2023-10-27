@@ -183,6 +183,55 @@ Classes used by multiple components are in the `seedu.networkbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Edit details
+
+The implementation of the edit command follows the convention of a normal command,
+where `EditCommandParser` is responsible for parsing the user input string
+into an executable command.
+
+![edit sequence](images/edit/EditDiagram.png)
+
+`EditCommandParser` first obtains the values corresponding to the flags 
+`/name`, `/phone`, `/email`, `/link`, `/grad`, `/course`, `/spec`, `/priority`, `/tag` and `/index`.
+`EditCommandParser` ensures that:
+* One and only one of `/name`, `/phone`, `/email`, `/link`, `/grad`, `/course`, `/spec`, `/priority`, `/tag` is present.
+* If `/name`, `/priority` or `/grad` is present, then `/index` is not present.
+* If `/phone`, `/email`, `/link`, `/course`, `/spec` or `/tag` is present, then one and only one tag `/index` is present.
+
+If any of the above constraints are violated, `EditCommandParser` throws a `ParseException`. 
+Otherwise, it creates a new instance of `EditCommand` that corresponds to the user input.
+
+`EditCommand` makes use of `EditPersonDescriptor`, which is an editable version of `Person` class.
+Most importantly, 
+* `EditPersonDescriptor` constructor copies the details of the person.
+* `EditPersonDescriptor` has setter methods to allow changing the details.
+* `EditPersonDescriptor` has a `toPerson` method that returns a new instance of `Person` that matches the current details.
+
+`EditCommand` comprises of the `index` of the person to edit, and `editAction` as an instance of `EditAction`. 
+Each `EditAction` implements `edit(EditPersonDescriptor)`,
+which mutates the input instance of `EditPersonDescriptor`.
+`EditAction` is an interface that has implementing concrete classes corresponding to each type of action
+(i.e. `EditPhoneAction` for editing phone, `EditEmailAction` for editing email, etc).
+
+Upon execution, `EditCommand` first obtains the `Person` at the index `index` in the model.
+`EditCommand` then creates a new instance of `EditPersonDescriptor` that matches the details of the `Person`.
+`EditCommand` then calls on `editAction::edit` to mutate the created `EditPersonDescriptor`.
+`EditCommand` then converts the current `EditPersonDescriptor` into a new `Person`.
+`EditCommand` then asks the `model` to update the original `Person` with the edited `Person`.
+
+We have considered the following alternative implementations:
+* Implement `EditCommand` with only `EditPersonDescriptor` and without `EditAction`,
+and `EditCommandParser` generates the instance of `EditPersonDescriptor` directly.
+`EditCommandParser` then must know the details of the person editing
+in order to generate the correct instance of `EditPersonDescriptor`.
+This is not optimal for object-oriented programming,
+as the parser should not need to know how the current model looks like.
+* Use a different class for each type of edit command 
+(i.e. editing phone with `EditPhoneCommand`, editing email with `EditEmailCommand`, etc).
+This design has the advantage that the parser does not need to know how the current model looks like.
+However, to keep `Command` classes consistent in design, 
+we decide to only have one `EditCommand` class and practice inheritance with `EditAction`.
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
