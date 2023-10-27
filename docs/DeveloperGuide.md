@@ -114,6 +114,34 @@ How the parsing works:
 * When called upon to parse a user command, the `NetworkBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `NetworkBookParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
+Here is an overview of what the other classes in `Logic` do:
+* `ArgumentMultiMap` and `ArgumentTokeniser` are used to map the parameters of 
+the user's input into key-value pairs, where the keys are specified using `ArgumentTokeniser`
+* `CliSyntax` is where command-specific keywords are stored. It is used as the arguments for `ArgumentTokeniser`
+to process the user input into: `{keyword : parameter}` pairs.
+  * Example usage: The text `1 /name John Doe /phone 98765432` when
+    mapped using `ArgumentTokeniser` with the keywords `/name`
+    and `/phone` produces:
+    * `{1}, {/name : John Doe}, {/phone : 98765432}`
+    * Any text that appears before the first possible keyword is stored
+      in its own entry.
+  * `ArgumentMultiMap` can then perform specific operations, including
+    but not limited to:
+    * Retrieve all values/only a specific value from the set.
+    * Check that a certain key only appears once, or exactly once.
+* `ParserUtil` contains useful commands for parsing text such as removing
+  leading/trailing whitespace from text, verifying that there are no 
+  duplicate entries in the text, and so on.
+
+The activity diagram below describes the workflow of `AddressBookParser`
+when determining which `Parser` to use:
+* `TO BE IMPLEMENTED IN 1.4`
+
+The sequence diagram below illustrates the interactions within the
+`FilterCommand` class to generate a `FilterCommand` object, using
+`ArgumentMultiMap` and `ArgumentTokeniser`:
+* `TO BE IMPLEMENTED IN 1.4`
+
 ### Model component
 **API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
 
