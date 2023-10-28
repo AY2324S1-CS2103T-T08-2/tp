@@ -80,8 +80,6 @@ public class AddCommand extends Command {
         }
         Person personToAddInfo = lastShownList.get(index.getZeroBased());
         Person personAfterAddingInfo = addInfoToPerson(personToAddInfo, addPersonDescriptor);
-        assert !personToAddInfo.equals(personAfterAddingInfo)
-                : "person after adding info must differ from person before adding info";
         model.setItem(personToAddInfo, personAfterAddingInfo);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_ADD_INFO_SUCCESS, Messages.format(personAfterAddingInfo)));

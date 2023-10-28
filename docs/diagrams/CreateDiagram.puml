@@ -1,0 +1,86 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+Participant ":Logic" as logic LOGIC_COLOR
+Participant ":NetworkBookParser" as networkBookParser LOGIC_COLOR_T1
+Participant ":CreateCommandParser" as createCommandParser LOGIC_COLOR_T2
+Participant ":ArgumentTokenizer" as ArgumentTokenizer LOGIC_COLOR_T3
+Participant ":ArgumentMultimap" as argMultimap LOGIC_COLOR_T1
+Participant ":Person" as person MODEL_COLOR_T1
+Participant ":CreateCommand" as createCommand MODEL_COLOR_T3
+Participant ":Model" as model MODEL_COLOR_T2
+Participant ":NetworkBook" as networkBook MODEL_COLOR_T1
+
+-> logic : execute("create" + arguments)
+activate logic
+
+logic -> networkBookParser : "create" + arguments
+activate networkBookParser LOGIC_COLOR_T1
+
+create createCommandParser
+networkBookParser -> createCommandParser : new CreateCommandParser()
+activate createCommandParser LOGIC_COLOR_T2
+
+createCommandParser --> networkBookParser
+deactivate createCommandParser
+
+networkBookParser -> createCommandParser : parse(arguments)
+activate createCommandParser LOGIC_COLOR_T2
+
+createCommandParser -> ArgumentTokenizer : tokenize
+activate ArgumentTokenizer LOGIC_COLOR_T3
+
+create argMultimap
+ArgumentTokenizer -> argMultimap : new ArgumentMultimap()
+activate argMultimap LOGIC_COLOR_T1
+argMultimap --> ArgumentTokenizer : argMultimap
+deactivate argMultimap
+
+ArgumentTokenizer --> createCommandParser : argMultimap
+deactivate ArgumentTokenizer
+
+createCommandParser -> argMultimap : parseName, ...
+activate argMultimap LOGIC_COLOR_T1
+argMultimap --> createCommandParser : name, ...
+deactivate argMultimap
+
+create person
+createCommandParser -> person : new Person(name, ...)
+activate person MODEL_COLOR_T2
+person --> createCommandParser : person
+deactivate person
+
+create createCommand
+createCommandParser -> createCommand : new CreateCommand(person)
+activate createCommand MODEL_COLOR_T3
+
+createCommand --> createCommandParser : createCommand
+deactivate createCommand
+
+createCommandParser --> networkBookParser : createCommand
+deactivate createCommandParser
+
+networkBookParser --> logic : createCommand
+deactivate networkBookParser
+
+logic -> createCommand: execute(model)
+activate createCommand MODEL_COLOR_T3
+
+createCommand -> model : hasPerson(person)
+activate model MODEL_COLOR_T2
+model --> createCommand : false
+deactivate model
+
+createCommand -> model : addPerson(person)
+activate model MODEL_COLOR_T2
+model -> networkBook : addPerson(person)
+deactivate model
+
+createCommand --> logic : command success
+deactivate model
+deactivate createCommand
+
+<-- logic : command success
+
+@enduml

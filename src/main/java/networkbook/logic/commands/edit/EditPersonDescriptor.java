@@ -26,6 +26,7 @@ public class EditPersonDescriptor {
     public static final String MESSAGE_INVALID_COURSE_INDEX = "The course index provided is invalid.";
     public static final String MESSAGE_INVALID_SPECIALISATION_INDEX = "The specialisation index provided is invalid.";
     public static final String MESSAGE_INVALID_TAG_INDEX = "The tag index provided is invalid.";
+    public static final String MESSAGE_DUPLICATE_EXISTS = "The contact already has the new %s provided.";
     private Name name;
     private UniqueList<Phone> phones;
     private UniqueList<Email> emails;
@@ -61,6 +62,11 @@ public class EditPersonDescriptor {
         if (index.getZeroBased() >= this.phones.size()) {
             throw new CommandException(MESSAGE_INVALID_PHONE_INDEX);
         }
+
+        if (this.phones.containsNotAtIndex(phone, index.getZeroBased())) {
+            throw new CommandException(String.format(MESSAGE_DUPLICATE_EXISTS, "phone"));
+        }
+
         this.phones.setItem(index.getZeroBased(), phone);
     }
 
@@ -69,6 +75,11 @@ public class EditPersonDescriptor {
         if (index.getZeroBased() >= this.emails.size()) {
             throw new CommandException(MESSAGE_INVALID_EMAIL_INDEX);
         }
+
+        if (this.emails.containsNotAtIndex(email, index.getZeroBased())) {
+            throw new CommandException(String.format(MESSAGE_DUPLICATE_EXISTS, "email"));
+        }
+
         this.emails.setItem(index.getZeroBased(), email);
     }
 
@@ -77,6 +88,11 @@ public class EditPersonDescriptor {
         if (index.getZeroBased() >= this.links.size()) {
             throw new CommandException(MESSAGE_INVALID_LINK_INDEX);
         }
+
+        if (this.links.containsNotAtIndex(link, index.getZeroBased())) {
+            throw new CommandException(String.format(MESSAGE_DUPLICATE_EXISTS, "link"));
+        }
+
         this.links.setItem(index.getZeroBased(), link);
     }
 
@@ -90,6 +106,11 @@ public class EditPersonDescriptor {
         if (index.getZeroBased() >= this.courses.size()) {
             throw new CommandException(MESSAGE_INVALID_COURSE_INDEX);
         }
+
+        if (this.courses.containsNotAtIndex(course, index.getZeroBased())) {
+            throw new CommandException(String.format(MESSAGE_DUPLICATE_EXISTS, "course"));
+        }
+
         this.courses.setItem(index.getZeroBased(), course);
     }
 
@@ -98,6 +119,11 @@ public class EditPersonDescriptor {
         if (index.getZeroBased() >= this.specialisations.size()) {
             throw new CommandException(MESSAGE_INVALID_SPECIALISATION_INDEX);
         }
+
+        if (this.specialisations.containsNotAtIndex(specialisation, index.getZeroBased())) {
+            throw new CommandException(String.format(MESSAGE_DUPLICATE_EXISTS, "specialisation"));
+        }
+
         this.specialisations.setItem(index.getZeroBased(), specialisation);
     }
 
@@ -106,6 +132,11 @@ public class EditPersonDescriptor {
         if (index.getZeroBased() >= this.tags.size()) {
             throw new CommandException(MESSAGE_INVALID_TAG_INDEX);
         }
+
+        if (this.tags.containsNotAtIndex(tag, index.getZeroBased())) {
+            throw new CommandException(String.format(MESSAGE_DUPLICATE_EXISTS, "tag"));
+        }
+
         this.tags.setItem(index.getZeroBased(), tag);
     }
 

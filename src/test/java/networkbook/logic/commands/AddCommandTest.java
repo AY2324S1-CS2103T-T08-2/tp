@@ -1,6 +1,5 @@
 package networkbook.logic.commands;
 
-import static networkbook.testutil.Assert.assertThrowsAssertionError;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -28,10 +27,15 @@ public class AddCommandTest {
     private Model model = new ModelManager(TypicalPersons.getTypicalNetworkBook(), new UserPrefs());
 
     @Test
-    public void execute_doNothing_throwsAssertionError() {
+    public void execute_doNothing_success() {
+        CommandTestUtil.showPersonAtIndex(model, TypicalIndexes.INDEX_FIRST_PERSON);
         AddCommand addCommand = new AddCommand(TypicalIndexes.INDEX_FIRST_PERSON,
                 new AddPersonDescriptorBuilder().build());
-        assertThrowsAssertionError(() -> addCommand.execute(model));
+        Person person = model.getFilteredPersonList()
+                .get(TypicalIndexes.INDEX_FIRST_PERSON.getZeroBased());
+        String expectedMessage = String.format(AddCommand.MESSAGE_ADD_INFO_SUCCESS, Messages.format(person));
+        Model expectedModel = new ModelManager(new NetworkBook(model.getNetworkBook()), new UserPrefs());
+        CommandTestUtil.assertCommandSuccess(addCommand, model, expectedMessage, expectedModel);
     }
 
     @Test

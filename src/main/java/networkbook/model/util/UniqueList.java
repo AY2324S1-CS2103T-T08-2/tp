@@ -20,12 +20,29 @@ public class UniqueList<T extends Identifiable<T>> implements Iterable<T> {
 
     /**
      * Checks whether the list contains the element.
-     * This makes use of {@code T::equals}.
+     * This makes use of {@code T::isSame}.
      * @param toCheck The element to check.
      */
     public boolean contains(T toCheck) {
         assert toCheck != null : "T toCheck should not be null";
         return internalList.stream().anyMatch(toCheck::isSame);
+    }
+
+    /**
+     * Checks whether the list contains the element {@code toCheck} not at the specified {@code index}.
+     * Meaning that element at the specified {@code index} is ignored.
+     */
+    public boolean containsNotAtIndex(T toCheck, int index) {
+        assert toCheck != null;
+        assert index >= 0;
+        assert index < this.size();
+
+        for (int i = 0; i < internalList.size(); i++) {
+            if (i != index && internalList.get(i).isSame(toCheck)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

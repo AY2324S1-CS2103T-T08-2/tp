@@ -48,6 +48,36 @@ public class UniqueListTest {
     }
 
     @Test
+    public void containsNotAtIndex_null_throwsAssertionError() {
+        assertThrowsAssertionError(() -> getSampleList().containsNotAtIndex(null, INDEX1));
+    }
+
+    @Test
+    public void containsNotAtIndex_indexOutOfBound_throwsAssertionError() {
+        assertThrowsAssertionError(() -> getSampleList().containsNotAtIndex(ITEM1_COPY, NEGATIVE_INDEX));
+        assertThrowsAssertionError(() -> getSampleList().containsNotAtIndex(ITEM1_COPY, INDEX_OUT_OF_BOUND));
+    }
+
+    @Test
+    public void containsNotAtIndex_elementInListNotAtIndex_returnsTrue() {
+        assertTrue(getSampleList().containsNotAtIndex(ITEM1, INDEX2));
+        assertTrue(getSampleList().containsNotAtIndex(ITEM1_COPY, INDEX2));
+        assertTrue(getSampleList().containsNotAtIndex(ITEM1_SAME, INDEX2));
+    }
+
+    @Test
+    public void containsNotAtIndex_elementInListAtIndex_returnsFalse() {
+        assertFalse(getSampleList().containsNotAtIndex(ITEM1, INDEX1));
+        assertFalse(getSampleList().containsNotAtIndex(ITEM1_COPY, INDEX1));
+        assertFalse(getSampleList().containsNotAtIndex(ITEM1_SAME, INDEX1));
+    }
+
+    @Test
+    public void containsNotAtIndex_elementNotInList_returnFalse() {
+        assertFalse(getSampleList().containsNotAtIndex(ITEM_NOT_IN_LIST, INDEX1));
+    }
+
+    @Test
     public void add_null_throwsAssertionError() {
         assertThrowsAssertionError(() -> getSampleList().add(null));
     }
