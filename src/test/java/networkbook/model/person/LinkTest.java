@@ -1,6 +1,7 @@
 package networkbook.model.person;
 
 import static networkbook.testutil.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -51,6 +52,19 @@ public class LinkTest {
         assertTrue(Link.isValidLink("https://www.google.com/?q=haha"));
         assertTrue(Link.isValidLink("https://www.google.com?q=haha"));
         assertTrue(Link.isValidLink("https://www.google.com/ncr?q=haha"));
+    }
+
+    @Test
+    public void toRecognisableWebUrl_linkNotStartingWithHttp_linkStartingWithHttps() {
+        String originalLinkValue = "google.com";
+        String expectedRecognisableValue = "https://google.com";
+        assertEquals(expectedRecognisableValue, new Link(originalLinkValue).toRecognisableWebUrl());
+    }
+
+    @Test
+    public void toRecognisableWebUrl_linkStartingWithHttp_sameLink() {
+        String value = "http://google.com";
+        assertEquals(value, new Link(value).toRecognisableWebUrl());
     }
 
     @Test

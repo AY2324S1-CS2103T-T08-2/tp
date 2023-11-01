@@ -4,6 +4,7 @@ import static networkbook.testutil.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import networkbook.commons.core.GuiSettings;
+import networkbook.logic.commands.exceptions.CommandException;
 import networkbook.model.person.NameContainsKeywordsPredicate;
 import networkbook.model.person.Person;
 import networkbook.model.person.PersonSortComparator;
@@ -92,6 +94,43 @@ public class ModelManagerTest {
     public void hasPerson_personInNetworkBook_returnsTrue() {
         modelManager.addPerson(TypicalPersons.ALICE);
         assertTrue(modelManager.hasPerson(TypicalPersons.ALICE));
+    }
+
+    @Test
+    public void undoNetworkBook_noPreviousState_throwsIllegalStateChangeException() {
+        ModelManager modelManager = new ModelManager();
+        assertThrows(CommandException.class, () -> modelManager.undoNetworkBook());
+    }
+
+    @Test
+    public void undoNetworkBook_hasPreviousState_success() {
+        ModelManager modelManager = new ModelManager();
+        modelManager.addPerson(TypicalPersons.ALICE);
+        try {
+            modelManager.undoNetworkBook();
+        } catch (CommandException e) {
+            fail();
+        }
+        assertEquals(0, modelManager.getNetworkBook().getPersonList().size());
+    }
+
+    @Test
+    public void redoNetworkBook_noNextState_throwsIllegalStateChangeException() {
+        ModelManager modelManager = new ModelManager();
+        assertThrows(CommandException.class, () -> modelManager.redoNetworkBook());
+    }
+
+    @Test
+    public void redoNetworkBook_hasNextState_success() {
+        ModelManager modelManager = new ModelManager();
+        modelManager.addPerson(TypicalPersons.ALICE);
+        try {
+            modelManager.undoNetworkBook();
+            modelManager.redoNetworkBook();
+        } catch (CommandException e) {
+            fail();
+        }
+        assertEquals(1, modelManager.getNetworkBook().getPersonList().size());
     }
 
     @Test

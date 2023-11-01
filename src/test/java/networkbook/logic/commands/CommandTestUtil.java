@@ -30,6 +30,8 @@ public class CommandTestUtil {
     public static final String VALID_EMAIL_AMY = "amy@example.com";
     public static final String VALID_EMAIL_BOB = "bob@example.com";
     public static final String VALID_LINK_AMY = "linkedin.com/in/Amy-beez";
+    public static final Index VALID_LINK_INDEX_AMY = Index.fromZeroBased(0);
+    public static final Index INVALID_LINK_INDEX_AMY = Index.fromZeroBased(1);
     public static final String VALID_LINK_BOB = "github.com/bob2000";
     public static final String VALID_GRADUATION_AMY = "AY9899-S2";
     public static final String VALID_GRADUATION_FULL_AMY = "AY1998/1999 Semester 2";

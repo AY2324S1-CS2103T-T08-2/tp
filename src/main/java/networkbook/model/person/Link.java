@@ -64,6 +64,18 @@ public class Link implements Identifiable<Link> {
         return this.value;
     }
 
+    /**
+     * Returns a string that is recognisable as a weblink,
+     * to prevent java from opening from local file.
+     */
+    public String toRecognisableWebUrl() {
+        if (this.value.startsWith("http")) {
+            return this.value;
+        } else {
+            return "https://" + this.value;
+        }
+    }
+
     @Override
     public String toString() {
         return value;

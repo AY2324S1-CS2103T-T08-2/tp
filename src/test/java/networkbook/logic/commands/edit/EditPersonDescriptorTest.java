@@ -20,6 +20,7 @@ import networkbook.model.person.Phone;
 import networkbook.model.person.Specialisation;
 import networkbook.model.person.Tag;
 import networkbook.model.util.UniqueList;
+import networkbook.testutil.TypicalPersons;
 
 public class EditPersonDescriptorTest {
     @Test
@@ -196,7 +197,7 @@ public class EditPersonDescriptorTest {
     @Test
     public void setLink_duplicateLink_throwsCommandException() {
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor(JACK);
-        Link duplicateLink = new Link("nkn.com");
+        Link duplicateLink = TypicalPersons.JACK_FIRST_LINK;
         Index index = Index.fromOneBased(2);
         assertThrows(CommandException.class, () -> editPersonDescriptor.setLink(index, duplicateLink));
     }

@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import networkbook.model.NetworkBook;
+import networkbook.model.person.Link;
 import networkbook.model.person.Person;
 
 /**
@@ -33,6 +34,7 @@ public class TypicalPersons {
             .withEmails(List.of("alice@example.com"))
             .withPhones(List.of("94351253"))
             .withGraduation("AY2324-S1")
+            .withLinks(List.of("nknguyenhc.github.io"))
             .withTags("friends").build();
     public static final Person BENSON = new PersonBuilder().withName("Benson Meier")
             .withEmails(List.of("johnd@example.com"))
@@ -76,12 +78,13 @@ public class TypicalPersons {
     public static final Person JACK = new PersonBuilder().withName("Jacky")
             .withPhones(List.of("12345678", "61828284"))
             .withEmails(List.of("jack@gmail.com", "jacky@test.com"))
-            .withLinks(List.of("nkn.com", "https://www.google.com"))
+            .withLinks(List.of("github.com", "https://nknguyenhc.github.io"))
             .withGraduation("AY2526-S2")
             .withCourses(List.of("CS2103T", "CS2109S"))
             .withSpecialisations(List.of("Software Engineering", "Artificial Intelligence"))
             .withPriority("High")
             .withTags("software eng enthusiast", "AI enthusiast").build();
+    public static final Link JACK_FIRST_LINK = new Link("github.com");
 
     // Manually added - Person's details found in {@code CommandTestUtil}
     public static final Person AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhones(List.of(VALID_PHONE_AMY))

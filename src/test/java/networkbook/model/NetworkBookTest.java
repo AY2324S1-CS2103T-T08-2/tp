@@ -87,6 +87,16 @@ public class NetworkBookTest {
     }
 
     @Test
+    public void isSame_sameNetworkBook_returnTrue() {
+        NetworkBook testBook = new NetworkBook();
+        assertTrue(testBook.isSame(testBook));
+    }
+    @Test
+    public void isSame_anotherEmptyNetworkBook_returnFalse() {
+        assertFalse(new NetworkBook().isSame(new NetworkBook()));
+    }
+
+    @Test
     public void toStringMethod() {
         String expected = NetworkBook.class.getCanonicalName() + "{persons=" + networkBook.getPersonList() + "}";
         assertEquals(expected, networkBook.toString());

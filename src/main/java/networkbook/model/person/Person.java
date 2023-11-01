@@ -2,9 +2,16 @@ package networkbook.model.person;
 
 import static java.util.Objects.requireNonNull;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.Logger;
 
+import networkbook.commons.core.LogsCenter;
+import networkbook.commons.core.index.Index;
+import networkbook.commons.util.ThrowingIoExceptionConsumer;
 import networkbook.commons.util.ToStringBuilder;
 import networkbook.model.util.Identifiable;
 import networkbook.model.util.UniqueList;
@@ -14,6 +21,38 @@ import networkbook.model.util.UniqueList;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Person implements Identifiable<Person> {
+
+    private static final String[] BROWSERS = {"google-chrome", "firefox", "mozilla", "epiphany",
+        "konqueror", "netscape", "opera", "links", "lynx", "chromium", "brave-browser"};
+    private static final Logger LOGGER = LogsCenter.getLogger(Person.class);
+    private static final String LINK_OPENING_MESSAGE = "Opening %s on %s";
+    private static final ThrowingIoExceptionConsumer<Link> LINK_OPENER = link -> {
+        String url = link.toRecognisableWebUrl();
+        // Code adapted from https://www.geekyhacker.com/open-a-url-in-the-default-browser-in-java/
+        if (System.getProperty("os.name").startsWith("Windows")) {
+            LOGGER.info(String.format(LINK_OPENING_MESSAGE, url, "Windows"));
+            Desktop.getDesktop().browse(URI.create(url));
+        } else if (System.getProperty("os.name").startsWith("Mac OS")) {
+            LOGGER.info(String.format(LINK_OPENING_MESSAGE, url, "Mac OS"));
+            Runtime.getRuntime().exec(new String[] { "open", url });
+        } else if (System.getProperty("os.name").startsWith("Linux")) {
+            for (String browser: BROWSERS) {
+                boolean isBrowserSupported = Runtime.getRuntime()
+                        .exec(new String[] { "which", browser })
+                        .getInputStream().read() != -1;
+                if (isBrowserSupported) {
+                    LOGGER.info(String.format(LINK_OPENING_MESSAGE, url, "Ubuntu"));
+                    Runtime.getRuntime().exec(new String[] { browser, url });
+                    return;
+                }
+            }
+            LOGGER.warning("No browser found.");
+        } else {
+            LOGGER.warning(String.format("Unrecognised OS: %s", System.getProperty("os.name")));
+        }
+    };
+
+    // Identity fields
     private final Name name;
     private final UniqueList<Phone> phones;
     private final UniqueList<Email> emails;
@@ -100,6 +139,32 @@ public class Person implements Identifiable<Person> {
      */
     public String getValue() {
         throw new UnsupportedOperationException("Person does not have String representation for Json storage");
+    }
+
+    /**
+     * Checks if the given index points to a valid link of this person.
+     */
+    public boolean isValidLinkIndex(Index linkIndex) {
+        assert linkIndex != null;
+        return linkIndex.getZeroBased() < this.links.size();
+    }
+
+    /**
+     * Opens the link at the specified index.
+     */
+    public void openLink(Index linkIndex) throws IOException {
+        assert linkIndex != null;
+        assert linkIndex.getZeroBased() < this.links.size();
+        this.links.consumeItem(linkIndex.getZeroBased(), LINK_OPENER);
+    }
+
+    /**
+     * Returns the link at the given index.
+     */
+    public Link getLink(int index) {
+        assert index >= 0;
+        assert index < this.links.size();
+        return this.links.get(index);
     }
 
     /**

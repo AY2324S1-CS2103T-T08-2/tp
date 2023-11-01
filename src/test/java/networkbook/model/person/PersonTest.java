@@ -9,6 +9,7 @@ import static networkbook.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static networkbook.logic.commands.CommandTestUtil.VALID_SPECIALISATION_BOB;
 import static networkbook.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static networkbook.testutil.Assert.assertThrows;
+import static networkbook.testutil.Assert.assertThrowsAssertionError;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import networkbook.commons.core.index.Index;
 import networkbook.testutil.PersonBuilder;
 import networkbook.testutil.TypicalPersons;
 
@@ -59,6 +61,48 @@ public class PersonTest {
     @Test
     public void getValue_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, TypicalPersons.ALICE::getValue);
+    }
+
+    @Test
+    public void isValidLinkIndex_null_throwsAssertionError() {
+        assertThrowsAssertionError(() -> TypicalPersons.JACK.isValidLinkIndex(null));
+    }
+
+    @Test
+    public void isValidLinkIndex_invalidLink_false() {
+        assertFalse(TypicalPersons.JACK.isValidLinkIndex(Index.fromOneBased(3)));
+    }
+
+    @Test
+    public void isValidLinkIndex_validIndex_true() {
+        assertTrue(TypicalPersons.JACK.isValidLinkIndex(Index.fromOneBased(1)));
+    }
+
+    @Test
+    public void getLink_invalidIndex_throwsAssertionError() {
+        assertThrowsAssertionError(() -> TypicalPersons.JACK.getLink(-1));
+        assertThrowsAssertionError(() -> TypicalPersons.JACK.getLink(2));
+    }
+
+    @Test
+    public void getLink_validIndex_returnsCorrectLink() {
+        assertEquals(TypicalPersons.JACK.getLink(0), TypicalPersons.JACK_FIRST_LINK);
+    }
+
+    @Test
+    public void openLink_null_throwsAssertionError() {
+        assertThrowsAssertionError(() -> TypicalPersons.JACK.openLink(null));
+    }
+
+    @Test
+    public void openLink_invalidIndex_throwsAssertionError() {
+        assertThrowsAssertionError(() -> TypicalPersons.JACK.openLink(Index.fromOneBased(3)));
+    }
+
+    @Test
+    public void openLink_validIndex_linkOpened() throws Exception {
+        TypicalPersons.JACK.openLink(Index.fromOneBased(1));
+        TypicalPersons.JACK.openLink(Index.fromOneBased(2));
     }
 
     @Test

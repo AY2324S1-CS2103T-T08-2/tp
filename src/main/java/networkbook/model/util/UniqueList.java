@@ -2,12 +2,16 @@ package networkbook.model.util;
 
 import static networkbook.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import networkbook.commons.util.ThrowingIoExceptionConsumer;
 
 /**
  * Represents a list of items that need to be unique.
@@ -126,7 +130,7 @@ public class UniqueList<T extends Identifiable<T>> implements Iterable<T> {
      * Checks if this list is empty.
      */
     public boolean isEmpty() {
-        return this.internalList.size() == 0;
+        return this.internalList.isEmpty();
     }
 
     /**
@@ -168,6 +172,48 @@ public class UniqueList<T extends Identifiable<T>> implements Iterable<T> {
 
     public ObservableList<T> asUnmodifiableObservableList() {
         return internalUnmodifiableList;
+    }
+
+    /**
+     * Tests if the item at the specified {@code index} satisfies the {@code predicate}.
+     */
+    public boolean test(int index, Predicate<T> predicate) {
+        assert predicate != null;
+        assert index >= 0;
+        assert index < this.internalList.size();
+        return predicate.test(this.internalList.get(index));
+    }
+
+    /**
+     * Provides the item at the given {@code index} to the {@code consumer}.
+     * The consumer may throw an exception.
+     * @throws IOException If the consumer throws {@code IOException}.
+     */
+    public void consumeItem(int index, ThrowingIoExceptionConsumer<T> consumer) throws IOException {
+        assert consumer != null;
+        assert index >= 0;
+        assert index < this.internalList.size();
+        consumer.accept(this.internalList.get(index));
+    }
+
+    /**
+     * Provides the item at the given {@code index} and
+     * returns the result of applying the provided {@code function} on the item at the given {@code index}.
+     * @throws IOException If the consumer throws an IOException.
+     */
+    public <U> U consumeAndComputeItem(int index, ThrowingIoExceptionConsumer<T> consumer,
+                                       Function<T, U> function) throws IOException {
+        assert consumer != null;
+        assert function != null;
+        assert index >= 0;
+        assert index < this.internalList.size();
+        T item = this.internalList.get(index);
+        consumer.accept(item);
+        return function.apply(item);
+    }
+
+    public T get(int index) {
+        return this.internalList.get(index);
     }
 
     public Stream<T> stream() {

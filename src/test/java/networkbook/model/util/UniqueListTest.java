@@ -7,9 +7,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
+
+import networkbook.commons.util.ThrowingIoExceptionConsumer;
 
 public class UniqueListTest {
     private static final UniqueNumber ITEM1 = new UniqueNumber(1, 1);
@@ -23,6 +28,11 @@ public class UniqueListTest {
     private static final int INDEX2 = 1;
     private static final int INDEX_OUT_OF_BOUND = 3;
     private static final int NEGATIVE_INDEX = -1;
+    private static final Predicate<UniqueNumber> TRUE_PREDICATE = t -> true;
+    private static final Predicate<UniqueNumber> FALSE_PREDICATE = t -> false;
+    private static final Predicate<UniqueNumber> SAMPLE_PREDICATE = t -> t.equals(ITEM1_COPY);
+    private static final ThrowingIoExceptionConsumer<UniqueNumber> SAMPLE_CONSUMER = t -> {};
+    private static final Function<UniqueNumber, Boolean> SAMPLE_FUNCTION = t -> t.isSame(ITEM1_SAME);
     private static final UniqueList<UniqueNumber> SAMPLE_LIST = new UniqueList<UniqueNumber>().setItems(List.of(
             ITEM1, ITEM2, ITEM3));
 
@@ -268,6 +278,98 @@ public class UniqueListTest {
     @Test
     public void isEmpty_notEmptyList_returnsFalse() {
         assertFalse(getSampleList().isEmpty());
+    }
+
+    @Test
+    public void test_invalidIndex_throwsAssertionError() {
+        assertThrowsAssertionError(() -> getSampleList().test(NEGATIVE_INDEX, SAMPLE_PREDICATE));
+        assertThrowsAssertionError(() -> getSampleList().test(INDEX_OUT_OF_BOUND, SAMPLE_PREDICATE));
+    }
+
+    @Test
+    public void test_nullPredicate_throwsAssertionError() {
+        assertThrowsAssertionError(() -> getSampleList().test(INDEX1, null));
+    }
+
+    @Test
+    public void test_truePredicate_returnsTrue() {
+        assertTrue(getSampleList().test(INDEX1, TRUE_PREDICATE));
+        assertTrue(getSampleList().test(INDEX2, TRUE_PREDICATE));
+        assertTrue(getSampleList().test(INDEX1, SAMPLE_PREDICATE));
+    }
+
+    @Test
+    public void test_falsePredicate_returnsTrue() {
+        assertFalse(getSampleList().test(INDEX1, FALSE_PREDICATE));
+        assertFalse(getSampleList().test(INDEX2, FALSE_PREDICATE));
+        assertFalse(getSampleList().test(INDEX2, SAMPLE_PREDICATE));
+    }
+
+    @Test
+    public void consumeItem_null_throwsAssertionError() {
+        assertThrowsAssertionError(() -> getSampleList().consumeItem(INDEX1, null));
+    }
+
+    @Test
+    public void consumeItem_invalidIndex_throwsAssertionError() {
+        ThrowingIoExceptionConsumerManager manager = new ThrowingIoExceptionConsumerManager(ITEM1_COPY);
+        assertThrowsAssertionError(() -> getSampleList().consumeItem(NEGATIVE_INDEX, manager.getConsumer()));
+        assertFalse(manager.isConsumed());
+        assertThrowsAssertionError(() -> getSampleList().consumeItem(INDEX_OUT_OF_BOUND, manager.getConsumer()));
+        assertFalse(manager.isConsumed());
+    }
+
+    @Test
+    public void consumeItem_validInputs_consumedWithCorrectItem() throws Exception {
+        ThrowingIoExceptionConsumerManager manager = new ThrowingIoExceptionConsumerManager(ITEM1_COPY);
+        getSampleList().consumeItem(INDEX2, manager.getConsumer());
+        assertFalse(manager.isConsumed());
+        getSampleList().consumeItem(INDEX1, manager.getConsumer());
+        assertTrue(manager.isConsumed());
+    }
+
+    @Test
+    public void consumeItem_consumerThrowingIoException_throwsIoException() {
+        ThrowingIoExceptionConsumer<UniqueNumber> throwingConsumer = t -> {
+            throw new IOException();
+        };
+        assertThrows(IOException.class, () -> getSampleList().consumeItem(INDEX1, throwingConsumer));
+    }
+
+    @Test
+    public void consumeAndComputeItem_null_throwsAssertionError() {
+        assertThrowsAssertionError(() -> getSampleList().consumeAndComputeItem(INDEX1, null, SAMPLE_FUNCTION));
+        assertThrowsAssertionError(() -> getSampleList().consumeAndComputeItem(INDEX1, SAMPLE_CONSUMER, null));
+        assertThrowsAssertionError(() -> getSampleList().consumeAndComputeItem(INDEX1, null, null));
+    }
+
+    @Test
+    public void consumeAndComputeItem_invalidIndex_throwsAssertionError() {
+        ThrowingIoExceptionConsumerManager manager = new ThrowingIoExceptionConsumerManager(ITEM1_COPY);
+        assertThrowsAssertionError(() -> getSampleList()
+                .consumeAndComputeItem(NEGATIVE_INDEX, manager.getConsumer(), SAMPLE_FUNCTION));
+        assertFalse(manager.isConsumed());
+        assertThrowsAssertionError(() -> getSampleList()
+                .consumeAndComputeItem(INDEX_OUT_OF_BOUND, manager.getConsumer(), SAMPLE_FUNCTION));
+        assertFalse(manager.isConsumed());
+    }
+
+    @Test
+    public void consumeAndComputeItem_validInputs_consumedWithCorrectItem() throws Exception {
+        ThrowingIoExceptionConsumerManager manager = new ThrowingIoExceptionConsumerManager(ITEM1_COPY);
+        assertFalse(getSampleList().consumeAndComputeItem(INDEX2, manager.getConsumer(), SAMPLE_FUNCTION));
+        assertFalse(manager.isConsumed());
+        assertTrue(getSampleList().consumeAndComputeItem(INDEX1, manager.getConsumer(), SAMPLE_FUNCTION));
+        assertTrue(manager.isConsumed());
+    }
+
+    @Test
+    public void consumeAndComputeItem_consumerThrowingIoException_throwsIoException() {
+        ThrowingIoExceptionConsumer<UniqueNumber> throwingConsumer = t -> {
+            throw new IOException();
+        };
+        assertThrows(IOException.class, () -> getSampleList()
+                .consumeAndComputeItem(INDEX1, throwingConsumer, SAMPLE_FUNCTION));
     }
 
     @Test

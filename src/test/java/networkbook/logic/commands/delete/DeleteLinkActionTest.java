@@ -23,7 +23,7 @@ public class DeleteLinkActionTest {
             JACK.getName(),
             JACK.getPhones(),
             JACK.getEmails(),
-            new UniqueList<Link>().setItems(List.of(new Link("https://www.google.com"))),
+            new UniqueList<Link>().setItems(List.of(new Link("https://nknguyenhc.github.io"))),
             JACK.getGraduation().get(),
             JACK.getCourses(),
             JACK.getSpecialisations(),
