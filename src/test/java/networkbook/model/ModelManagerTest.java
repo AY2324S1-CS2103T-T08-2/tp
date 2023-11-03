@@ -18,6 +18,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import networkbook.commons.core.GuiSettings;
 import networkbook.logic.commands.exceptions.CommandException;
+import networkbook.model.person.NameContainsKeyTermsPredicate;
 import networkbook.model.person.NameContainsKeywordsPredicate;
 import networkbook.model.person.Person;
 import networkbook.model.person.PersonSortComparator;
@@ -135,7 +136,7 @@ public class ModelManagerTest {
 
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> modelManager.getDisplayedPersonList().remove(0));
     }
 
     @Test
@@ -166,20 +167,20 @@ public class ModelManagerTest {
 
         // different filter -> returns false
         String[] keywords = TypicalPersons.ALICE.getName().fullName.split("\\s+");
-        modelManager.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
+        modelManager.updateDisplayedPersonList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)), null);
         assertFalse(modelManager.equals(new ModelManager(networkBook, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests
-        modelManager.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
-        modelManager.updateSortedPersonList(PersonSortComparator.EMPTY_COMPARATOR);
+        modelManager.updateDisplayedPersonList(Model.PREDICATE_SHOW_ALL_PERSONS, null);
+        modelManager.updateDisplayedPersonList(null, PersonSortComparator.EMPTY_COMPARATOR);
 
         // different sort -> returns false
-        modelManager.updateSortedPersonList(new PersonSortComparator(SortField.NAME, SortOrder.DESCENDING));
+        modelManager.updateDisplayedPersonList(null, new PersonSortComparator(SortField.NAME, SortOrder.DESCENDING));
         assertFalse(modelManager.equals(new ModelManager(networkBook, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests
-        modelManager.updateFilteredPersonList(Model.PREDICATE_SHOW_ALL_PERSONS);
-        modelManager.updateSortedPersonList(PersonSortComparator.EMPTY_COMPARATOR);
+        modelManager.updateDisplayedPersonList(Model.PREDICATE_SHOW_ALL_PERSONS, null);
+        modelManager.updateDisplayedPersonList(null, PersonSortComparator.EMPTY_COMPARATOR);
 
         // different userPrefs -> returns false
         UserPrefs differentUserPrefs = new UserPrefs();
@@ -188,16 +189,40 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void updateSortedPersonList_descendingNameSort_correctlySorted() {
+    public void updateDisplayedPersonList_filterBySingleKeyword_correctlyFiltered() {
+        Model model = new ModelManager(TypicalPersons.getTypicalNetworkBook(), new UserPrefs());
+        model.updateDisplayedPersonList(new NameContainsKeyTermsPredicate(List.of("Ku")), null);
+        List<Person> expectedPersons = List.of(TypicalPersons.CARL, TypicalPersons.FIONA);
+        ObservableList<Person> expectedList = FXCollections.observableList(expectedPersons);
+        assertEquals(
+                expectedList,
+                model.getDisplayedPersonList()
+        );
+    }
+
+    @Test
+    public void updateDisplayedPersonList_filterByMultipleKeywords_correctlyFiltered() {
+        Model model = new ModelManager(TypicalPersons.getTypicalNetworkBook(), new UserPrefs());
+        model.updateDisplayedPersonList(new NameContainsKeyTermsPredicate(List.of("Alice", "Benson")), null);
+        List<Person> expectedPersons = List.of(TypicalPersons.ALICE, TypicalPersons.BENSON);
+        ObservableList<Person> expectedList = FXCollections.observableList(expectedPersons);
+        assertEquals(
+                expectedList,
+                model.getDisplayedPersonList()
+        );
+    }
+
+    @Test
+    public void updateDisplayedPersonList_descendingNameSort_correctlySorted() {
         PersonSortComparator comparator = new PersonSortComparator(SortField.NAME, SortOrder.DESCENDING);
         Model model = new ModelManager(TypicalPersons.getTypicalNetworkBook(), new UserPrefs());
-        model.updateSortedPersonList(comparator);
+        model.updateDisplayedPersonList(null, comparator);
         List<Person> expectedPersons = TypicalPersons.getTypicalPersons();
         Collections.reverse(expectedPersons);
         ObservableList<Person> expectedList = FXCollections.observableList(expectedPersons);
         assertEquals(
                 expectedList,
-                model.getFilteredPersonList()
+                model.getDisplayedPersonList()
         );
     }
 

@@ -34,10 +34,12 @@ public class OpenLinkCommand extends Command {
 
     /**
      * Creates a new {@code OpenLinkCommand}.
+     * This command is not data-changing, so parent constructor is called with false.
      * @param personIndex The index of the person to open the link.
      * @param linkIndex The index of the link in the link list of the person.
      */
     public OpenLinkCommand(Index personIndex, Index linkIndex) {
+        super(false);
         requireAllNonNull(personIndex, linkIndex);
         this.personIndex = personIndex;
         this.linkIndex = linkIndex;
@@ -46,7 +48,7 @@ public class OpenLinkCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         assert model != null : "Model should not be null.";
-        List<Person> lastShownList = model.getFilteredPersonList();
+        List<Person> lastShownList = model.getDisplayedPersonList();
         if (this.personIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }

@@ -60,12 +60,12 @@ public class SortCommandTest {
         Model model = new ModelManager(TypicalPersons.getTypicalNetworkBook(), new UserPrefs());
         Model expectedModel = new ModelManager(TypicalPersons.getTypicalNetworkBook(), new UserPrefs());
         SortCommand command = new SortCommand(comparator);
-        expectedModel.updateSortedPersonList(comparator);
+        expectedModel.updateDisplayedPersonList(null, comparator);
         CommandTestUtil.assertCommandSuccess(command, model, expectedMessage, expectedModel);
         ObservableList<Person> expectedList = FXCollections.observableList(expectedPersons);
         assertEquals(
                 expectedList,
-                model.getFilteredPersonList()
+                model.getDisplayedPersonList()
         );
     }
 

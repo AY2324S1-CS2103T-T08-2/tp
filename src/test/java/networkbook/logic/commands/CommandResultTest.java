@@ -12,26 +12,26 @@ public class CommandResultTest {
     public void equals() {
         CommandResult commandResult = new CommandResult("feedback");
 
-        // same values -> returns true
+        // same values -> equal
         assertTrue(commandResult.equals(new CommandResult("feedback")));
         assertTrue(commandResult.equals(new CommandResult("feedback", false, false)));
 
-        // same object -> returns true
+        // same object -> equal
         assertTrue(commandResult.equals(commandResult));
 
-        // null -> returns false
+        // null -> not equal
         assertFalse(commandResult.equals(null));
 
-        // different types -> returns false
+        // different types -> not equal
         assertFalse(commandResult.equals(0.5f));
 
-        // different feedbackToUser value -> returns false
+        // different feedbackToUser value -> not equal
         assertFalse(commandResult.equals(new CommandResult("different")));
 
-        // different showHelp value -> returns false
+        // different showHelp value -> not equal
         assertFalse(commandResult.equals(new CommandResult("feedback", true, false)));
 
-        // different exit value -> returns false
+        // different exit value -> not equal
         assertFalse(commandResult.equals(new CommandResult("feedback", false, true)));
     }
 

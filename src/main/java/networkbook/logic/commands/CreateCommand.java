@@ -21,10 +21,10 @@ public class CreateCommand extends Command {
             + "[" + CliSyntax.PREFIX_NAME + " NAME] "
             + "[" + CliSyntax.PREFIX_PHONE + " PHONE] "
             + "[" + CliSyntax.PREFIX_EMAIL + " EMAIL] "
-            + "[" + CliSyntax.PREFIX_LINK + "LINK] "
+            + "[" + CliSyntax.PREFIX_LINK + " LINK] "
             + "[" + CliSyntax.PREFIX_GRADUATION + " GRADUATION DATE] "
-            + "[" + CliSyntax.PREFIX_COURSE + "COURSE OF STUDY] "
-            + "[" + CliSyntax.PREFIX_SPECIALISATION + "SPECIALISATION] "
+            + "[" + CliSyntax.PREFIX_COURSE + " COURSE OF STUDY] "
+            + "[" + CliSyntax.PREFIX_SPECIALISATION + " SPECIALISATION] "
             + "[" + CliSyntax.PREFIX_TAG + " TAG] "
             + "[" + CliSyntax.PREFIX_PRIORITY + " PRIORITY]...\n"
             + "Example: " + COMMAND_WORD + " "
@@ -41,9 +41,11 @@ public class CreateCommand extends Command {
     private final Person toAdd;
 
     /**
-     * Creates a CreateCommand to create the specified {@code Person}
+     * Creates a CreateCommand to create the specified {@code Person}.
+     * This command is data-changing, so parent constructor is called with true.
      */
     public CreateCommand(Person person) {
+        super(true);
         requireNonNull(person);
         toAdd = person;
     }
@@ -58,7 +60,7 @@ public class CreateCommand extends Command {
 
         model.addPerson(toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd))
-            + String.format(MESSAGE_SUCCESS_INDEX, model.getFilteredPersonList().size()));
+            + String.format(MESSAGE_SUCCESS_INDEX, model.getDisplayedPersonList().size()));
     }
 
     @Override

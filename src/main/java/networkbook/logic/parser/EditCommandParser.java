@@ -148,7 +148,7 @@ public class EditCommandParser implements Parser<EditCommand> {
     }
 
     private static EditAction generateCourseAction(ArgumentMultimap argMultimap) throws ParseException {
-        Course course = ParserUtil.parseCourse(argMultimap.getValue(CliSyntax.PREFIX_COURSE).get());
+        Course course = ParserUtil.parseCourseWithPrefixes(argMultimap.getValue(CliSyntax.PREFIX_COURSE).get());
         Index index = ParserUtil.parseIndex(argMultimap.getValue(CliSyntax.PREFIX_INDEX).get());
         return new EditCourseAction(index, course);
     }

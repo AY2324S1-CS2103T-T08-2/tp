@@ -21,14 +21,17 @@ import networkbook.logic.commands.ExitCommand;
 import networkbook.logic.commands.FindCommand;
 import networkbook.logic.commands.HelpCommand;
 import networkbook.logic.commands.ListCommand;
+import networkbook.logic.commands.OpenEmailCommand;
 import networkbook.logic.commands.OpenLinkCommand;
 import networkbook.logic.commands.RedoCommand;
+import networkbook.logic.commands.SaveCommand;
 import networkbook.logic.commands.SortCommand;
 import networkbook.logic.commands.UndoCommand;
 import networkbook.logic.commands.delete.DeletePersonCommand;
 import networkbook.logic.commands.edit.EditCommand;
 import networkbook.logic.commands.edit.EditNameAction;
 import networkbook.logic.commands.filter.FilterCommand;
+import networkbook.logic.commands.filter.FilterCourseCommand;
 import networkbook.logic.parser.exceptions.ParseException;
 import networkbook.model.person.Name;
 import networkbook.model.person.NameContainsKeyTermsPredicate;
@@ -116,10 +119,11 @@ public class NetworkBookParserTest {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FilterCommand command = (FilterCommand) parser.parseCommand(
                 FilterCommand.COMMAND_WORD + " "
-                        + CliSyntax.PREFIX_FILTER_FIELD + " "
+                        + CliSyntax.PREFIX_FILTER_FIELD + " course "
+                        + CliSyntax.PREFIX_FILTER_ARGS + " "
                         + keywords.stream().collect(Collectors.joining(" "))
         );
-        assertEquals(new FilterCommand(
+        assertEquals(new FilterCourseCommand(
                 new CourseContainsKeyTermsPredicate(keywords),
                 new CourseIsStillBeingTakenPredicate(LocalDate.now()),
                 false), command);
@@ -134,9 +138,24 @@ public class NetworkBookParserTest {
     }
 
     @Test
+    public void parseCommand_openEmail() throws Exception {
+        String userInput = OpenEmailCommand.COMMAND_WORD + " 1 " + CliSyntax.PREFIX_INDEX + " 1 ";
+        Command actualCommand = parser.parseCommand(userInput);
+        Command expectedCommand = new OpenEmailCommand(Index.fromOneBased(1), Index.fromOneBased(1));
+        assertEquals(expectedCommand, actualCommand);
+    }
+
+    @Test
     public void parseCommand_help() throws Exception {
         assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD) instanceof HelpCommand);
         assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD + " 3") instanceof HelpCommand);
+    }
+
+    @Test
+    public void parseCommand_save() throws Exception {
+        SaveCommand expectedCommand = new SaveCommand();
+        assertEquals(expectedCommand, parser.parseCommand(SaveCommand.COMMAND_WORD));
+        assertEquals(expectedCommand, parser.parseCommand(SaveCommand.COMMAND_WORD + " 3"));
     }
 
     @Test

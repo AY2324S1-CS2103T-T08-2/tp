@@ -17,7 +17,7 @@ public class CourseContainsKeyTermsPredicate implements Predicate<Person> {
     private final List<String> keyTerms;
 
     /**
-     * Creates a predicate that returns true for any Person object that has at least one that
+     * Creates a predicate that returns true for any Person object that has at least one course that
      * partially matches any of the key terms given.
      */
     public CourseContainsKeyTermsPredicate(List<String> keyTerms) {

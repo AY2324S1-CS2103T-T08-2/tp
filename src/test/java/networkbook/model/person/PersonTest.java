@@ -69,7 +69,7 @@ public class PersonTest {
     }
 
     @Test
-    public void isValidLinkIndex_invalidLink_false() {
+    public void isValidLinkIndex_invalidIndex_false() {
         assertFalse(TypicalPersons.JACK.isValidLinkIndex(Index.fromOneBased(3)));
     }
 
@@ -103,6 +103,47 @@ public class PersonTest {
     public void openLink_validIndex_linkOpened() throws Exception {
         TypicalPersons.JACK.openLink(Index.fromOneBased(1));
         TypicalPersons.JACK.openLink(Index.fromOneBased(2));
+    }
+
+    @Test
+    public void isValidEmailIndex_null_throwsAssertionError() {
+        assertThrowsAssertionError(() -> TypicalPersons.JACK.isValidEmailIndex(null));
+    }
+
+    @Test
+    public void isValidEmailIndex_invalidIndex_false() {
+        assertFalse(TypicalPersons.JACK.isValidEmailIndex(Index.fromOneBased(3)));
+    }
+
+    @Test
+    public void isValidEmailIndex_validIndex_true() {
+        assertTrue(TypicalPersons.JACK.isValidEmailIndex(Index.fromOneBased(1)));
+    }
+
+    @Test
+    public void openEmail_null_throwsAssertionError() {
+        assertThrowsAssertionError(() -> TypicalPersons.JACK.openEmail(null));
+    }
+
+    @Test
+    public void openEmail_invalidIndex_throwsAssertionError() {
+        assertThrowsAssertionError(() -> TypicalPersons.JACK.openEmail(Index.fromOneBased(3)));
+    }
+
+    @Test
+    public void openEmail_validIndex_emailOpened() throws Exception {
+        TypicalPersons.JACK.openEmail(Index.fromOneBased(1));
+    }
+
+    @Test
+    public void getEmail_invalidIndex_throwsAssertionError() {
+        assertThrowsAssertionError(() -> TypicalPersons.JACK.getEmail(-1));
+        assertThrowsAssertionError(() -> TypicalPersons.JACK.getEmail(2));
+    }
+
+    @Test
+    public void getEmail_validIndex_returnsCorrectEmail() {
+        assertEquals(TypicalPersons.JACK_FIRST_EMAIL, TypicalPersons.JACK.getEmail(0));
     }
 
     @Test

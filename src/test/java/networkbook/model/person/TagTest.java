@@ -33,6 +33,18 @@ public class TagTest {
     }
 
     @Test
+    public void isValidTagName() {
+        assertFalse(Tag.isValidTagName("")); // empty tag
+        assertFalse(Tag.isValidTagName("   ")); // only white space
+        assertFalse(Tag.isValidTagName("/talk")); // disallowed character "/"
+
+        assertTrue(Tag.isValidTagName("fe892j")); // alphanumeric characters
+        assertTrue(Tag.isValidTagName("software eng")); // white space allowed
+        assertTrue(Tag.isValidTagName("software_eng")); // underscore allowed
+        assertTrue(Tag.isValidTagName("dean's list, top for all mods")); // comma and apostrophe allowed
+    }
+
+    @Test
     public void isSame_sameTagNames_returnsTrue() {
         assertTrue(new Tag(VALID_TAG_1).isSame(new Tag(VALID_TAG_1)));
         assertTrue(new Tag(VALID_TAG_2).isSame(new Tag(VALID_TAG_2)));

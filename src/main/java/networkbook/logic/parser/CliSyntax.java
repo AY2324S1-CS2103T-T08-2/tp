@@ -12,12 +12,15 @@ public class CliSyntax {
     public static final Prefix PREFIX_LINK = new Prefix("/link");
     public static final Prefix PREFIX_GRADUATION = new Prefix("/grad");
     public static final Prefix PREFIX_COURSE = new Prefix("/course");
+    public static final Prefix PREFIX_COURSE_START = new Prefix("/start");
+    public static final Prefix PREFIX_COURSE_END = new Prefix("/end");
     public static final Prefix PREFIX_SPECIALISATION = new Prefix("/spec");
     public static final Prefix PREFIX_TAG = new Prefix("/tag");
     public static final Prefix PREFIX_PRIORITY = new Prefix("/priority");
     public static final Prefix PREFIX_INDEX = new Prefix("/index");
     public static final Prefix PREFIX_SORT_FIELD = new Prefix("/by");
     public static final Prefix PREFIX_SORT_ORDER = new Prefix("/order");
-    public static final Prefix PREFIX_FILTER_FIELD = new Prefix("/with");
+    public static final Prefix PREFIX_FILTER_FIELD = new Prefix("/by");
+    public static final Prefix PREFIX_FILTER_ARGS = new Prefix("/with");
     public static final Prefix PREFIX_FILTER_FIN = new Prefix("/taken");
 }

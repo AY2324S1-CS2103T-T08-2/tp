@@ -15,6 +15,7 @@ import networkbook.logic.commands.CommandResult;
 import networkbook.logic.commands.CommandTestUtil;
 import networkbook.logic.commands.CreateCommand;
 import networkbook.logic.commands.ListCommand;
+import networkbook.logic.commands.SaveCommand;
 import networkbook.logic.commands.exceptions.CommandException;
 import networkbook.logic.parser.exceptions.ParseException;
 import networkbook.model.Model;
@@ -60,9 +61,15 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_validCommand_success() throws Exception {
+    public void execute_validListCommand_success() throws Exception {
         String listCommand = ListCommand.COMMAND_WORD;
         assertCommandSuccess(listCommand, String.format(ListCommand.MESSAGE_PERSONS_LISTED_OVERVIEW, 0), model);
+    }
+
+    @Test
+    public void execute_validSaveCommand_success() throws Exception {
+        String saveCommand = SaveCommand.COMMAND_WORD;
+        assertCommandSuccess(saveCommand, SaveCommand.MESSAGE_SUCCESS, model);
     }
 
     @Test

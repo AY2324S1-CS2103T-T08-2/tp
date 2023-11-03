@@ -25,7 +25,7 @@ import networkbook.testutil.TypicalPersons;
 public class JsonAdaptedPersonTest {
     private static final String INVALID_NAME = "R@chel";
     private static final List<JsonAdaptedProperty<Phone>> INVALID_PHONES = List.of(
-            new JsonAdaptedProperty<>("+651234"));
+            new JsonAdaptedProperty<>("+ 651234"));
     private static final List<JsonAdaptedProperty<Email>> INVALID_EMAILS =
             List.of(new JsonAdaptedProperty<>("example.com"));
     private static final List<JsonAdaptedProperty<Link>> INVALID_LINKS = List.of(

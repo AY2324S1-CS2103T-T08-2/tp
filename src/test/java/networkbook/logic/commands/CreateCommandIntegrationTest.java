@@ -32,7 +32,7 @@ public class CreateCommandIntegrationTest {
 
         CommandTestUtil.assertCommandSuccess(new CreateCommand(validPerson), model,
                 String.format(CreateCommand.MESSAGE_SUCCESS, Messages.format(validPerson))
-                    + String.format(CreateCommand.MESSAGE_SUCCESS_INDEX, expectedModel.getFilteredPersonList().size()),
+                    + String.format(CreateCommand.MESSAGE_SUCCESS_INDEX, expectedModel.getDisplayedPersonList().size()),
                 expectedModel);
     }
 

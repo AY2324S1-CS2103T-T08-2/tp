@@ -28,7 +28,7 @@ public class DeletePersonCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        Person personToDelete = model.getFilteredPersonList().get(TypicalIndexes.INDEX_FIRST_PERSON.getZeroBased());
+        Person personToDelete = model.getDisplayedPersonList().get(TypicalIndexes.INDEX_FIRST_PERSON.getZeroBased());
         DeletePersonCommand deletePersonCommand = new DeletePersonCommand(TypicalIndexes.INDEX_FIRST_PERSON);
 
         String expectedMessage = String.format(DeletePersonCommand.MESSAGE_DELETE_PERSON_SUCCESS,
@@ -43,7 +43,7 @@ public class DeletePersonCommandTest {
 
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getDisplayedPersonList().size() + 1);
         DeletePersonCommand deletePersonCommand = new DeletePersonCommand(outOfBoundIndex);
 
         assertCommandFailure(deletePersonCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
@@ -53,7 +53,7 @@ public class DeletePersonCommandTest {
     public void execute_validIndexFilteredList_success() {
         showPersonAtIndex(model, TypicalIndexes.INDEX_FIRST_PERSON);
 
-        Person personToDelete = model.getFilteredPersonList().get(TypicalIndexes.INDEX_FIRST_PERSON.getZeroBased());
+        Person personToDelete = model.getDisplayedPersonList().get(TypicalIndexes.INDEX_FIRST_PERSON.getZeroBased());
         DeletePersonCommand deletePersonCommand = new DeletePersonCommand(TypicalIndexes.INDEX_FIRST_PERSON);
 
         String expectedMessage = String.format(DeletePersonCommand.MESSAGE_DELETE_PERSON_SUCCESS,
@@ -62,7 +62,6 @@ public class DeletePersonCommandTest {
 
         Model expectedModel = new ModelManager(model.getNetworkBook(), new UserPrefs());
         expectedModel.deletePerson(personToDelete);
-        showNoPerson(expectedModel);
 
         assertCommandSuccess(deletePersonCommand, model, expectedMessage, expectedModel);
     }
@@ -122,8 +121,8 @@ public class DeletePersonCommandTest {
      * Updates {@code model}'s filtered list to show no one.
      */
     private void showNoPerson(Model model) {
-        model.updateFilteredPersonList(p -> false);
+        model.updateDisplayedPersonList(p -> false, null);
 
-        assertTrue(model.getFilteredPersonList().isEmpty());
+        assertTrue(model.getDisplayedPersonList().isEmpty());
     }
 }

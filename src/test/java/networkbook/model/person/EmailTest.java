@@ -1,6 +1,7 @@
 package networkbook.model.person;
 
 import static networkbook.testutil.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -96,5 +97,12 @@ public class EmailTest {
     public void isSame_differentEmails_returnsFalse() {
         assertFalse(new Email("valid@exam.com").isSame(new Email("valid@random.com")));
         assertFalse(new Email("valid@exam.com").isSame(new Email("test@exam.com")));
+    }
+
+    @Test
+    public void toEmailUri_returnsCorrectUri() {
+        String originalEmail = "test@example.com";
+        String expectedUri = "mailto:test@example.com";
+        assertEquals(expectedUri, new Email(originalEmail).toEmailUri());
     }
 }

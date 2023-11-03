@@ -31,7 +31,7 @@ public class AddCommandTest {
         CommandTestUtil.showPersonAtIndex(model, TypicalIndexes.INDEX_FIRST_PERSON);
         AddCommand addCommand = new AddCommand(TypicalIndexes.INDEX_FIRST_PERSON,
                 new AddPersonDescriptorBuilder().build());
-        Person person = model.getFilteredPersonList()
+        Person person = model.getDisplayedPersonList()
                 .get(TypicalIndexes.INDEX_FIRST_PERSON.getZeroBased());
         String expectedMessage = String.format(AddCommand.MESSAGE_ADD_INFO_SUCCESS, Messages.format(person));
         Model expectedModel = new ModelManager(new NetworkBook(model.getNetworkBook()), new UserPrefs());
@@ -42,7 +42,7 @@ public class AddCommandTest {
     public void execute_callAddPhoneOnFilteredList_success() {
         CommandTestUtil.showPersonAtIndex(model, TypicalIndexes.INDEX_FIRST_PERSON);
 
-        Person personInFilteredList = model.getFilteredPersonList()
+        Person personInFilteredList = model.getDisplayedPersonList()
                 .get(TypicalIndexes.INDEX_FIRST_PERSON.getZeroBased());
         Person editedPerson = new PersonBuilder(personInFilteredList)
                 .addPhone(CommandTestUtil.VALID_PHONE_BOB).build();
@@ -52,7 +52,7 @@ public class AddCommandTest {
         String expectedMessage = String.format(AddCommand.MESSAGE_ADD_INFO_SUCCESS, Messages.format(editedPerson));
 
         Model expectedModel = new ModelManager(new NetworkBook(model.getNetworkBook()), new UserPrefs());
-        expectedModel.setItem(model.getFilteredPersonList().get(0), editedPerson);
+        expectedModel.setItem(model.getDisplayedPersonList().get(0), editedPerson);
 
         CommandTestUtil.assertCommandSuccess(addCommand, model, expectedMessage, expectedModel);
     }
@@ -60,7 +60,7 @@ public class AddCommandTest {
     public void execute_callAddEmailOnFilteredList_success() {
         CommandTestUtil.showPersonAtIndex(model, TypicalIndexes.INDEX_FIRST_PERSON);
 
-        Person personInFilteredList = model.getFilteredPersonList()
+        Person personInFilteredList = model.getDisplayedPersonList()
                 .get(TypicalIndexes.INDEX_FIRST_PERSON.getZeroBased());
         Person editedPerson = new PersonBuilder(personInFilteredList)
                 .addEmail(CommandTestUtil.VALID_EMAIL_BOB).build();
@@ -70,7 +70,7 @@ public class AddCommandTest {
         String expectedMessage = String.format(AddCommand.MESSAGE_ADD_INFO_SUCCESS, Messages.format(editedPerson));
 
         Model expectedModel = new ModelManager(new NetworkBook(model.getNetworkBook()), new UserPrefs());
-        expectedModel.setItem(model.getFilteredPersonList().get(0), editedPerson);
+        expectedModel.setItem(model.getDisplayedPersonList().get(0), editedPerson);
 
         CommandTestUtil.assertCommandSuccess(addCommand, model, expectedMessage, expectedModel);
     }
@@ -78,7 +78,7 @@ public class AddCommandTest {
     public void execute_callAddLinkOnFilteredList_success() {
         CommandTestUtil.showPersonAtIndex(model, TypicalIndexes.INDEX_FIRST_PERSON);
 
-        Person personInFilteredList = model.getFilteredPersonList()
+        Person personInFilteredList = model.getDisplayedPersonList()
                 .get(TypicalIndexes.INDEX_FIRST_PERSON.getZeroBased());
         Person editedPerson = new PersonBuilder(personInFilteredList)
                 .addLink(CommandTestUtil.VALID_LINK_BOB).build();
@@ -88,14 +88,14 @@ public class AddCommandTest {
         String expectedMessage = String.format(AddCommand.MESSAGE_ADD_INFO_SUCCESS, Messages.format(editedPerson));
 
         Model expectedModel = new ModelManager(new NetworkBook(model.getNetworkBook()), new UserPrefs());
-        expectedModel.setItem(model.getFilteredPersonList().get(0), editedPerson);
+        expectedModel.setItem(model.getDisplayedPersonList().get(0), editedPerson);
 
         CommandTestUtil.assertCommandSuccess(addCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_multipleGradsBeingAdded_assertionError() {
-        Index indexLastPerson = Index.fromOneBased(model.getFilteredPersonList().size());
+        Index indexLastPerson = Index.fromOneBased(model.getDisplayedPersonList().size());
         AddCommand.AddPersonDescriptor descriptor =
                 new AddPersonDescriptorBuilder().withGraduation(CommandTestUtil.VALID_GRADUATION_AMY).build();
         AddCommand addCommand = new AddCommand(indexLastPerson, descriptor);
@@ -109,7 +109,7 @@ public class AddCommandTest {
     public void execute_addAnotherCourseToPerson_success() {
         CommandTestUtil.showPersonAtIndex(model, TypicalIndexes.INDEX_FIRST_PERSON);
 
-        Person personInFilteredList = model.getFilteredPersonList()
+        Person personInFilteredList = model.getDisplayedPersonList()
                 .get(TypicalIndexes.INDEX_FIRST_PERSON.getZeroBased());
         Person editedPerson = new PersonBuilder(personInFilteredList)
                 .addCourse(CommandTestUtil.VALID_COURSE_BOB).build();
@@ -119,7 +119,7 @@ public class AddCommandTest {
         String expectedMessage = String.format(AddCommand.MESSAGE_ADD_INFO_SUCCESS, Messages.format(editedPerson));
 
         Model expectedModel = new ModelManager(new NetworkBook(model.getNetworkBook()), new UserPrefs());
-        expectedModel.setItem(model.getFilteredPersonList().get(0), editedPerson);
+        expectedModel.setItem(model.getDisplayedPersonList().get(0), editedPerson);
 
         CommandTestUtil.assertCommandSuccess(addCommand, model, expectedMessage, expectedModel);
     }
@@ -128,7 +128,7 @@ public class AddCommandTest {
     public void execute_addAnotherSpecialisationToPerson_success() {
         CommandTestUtil.showPersonAtIndex(model, TypicalIndexes.INDEX_FIRST_PERSON);
 
-        Person personInFilteredList = model.getFilteredPersonList()
+        Person personInFilteredList = model.getDisplayedPersonList()
                 .get(TypicalIndexes.INDEX_FIRST_PERSON.getZeroBased());
         Person editedPerson = new PersonBuilder(personInFilteredList)
                 .addSpecialisation(CommandTestUtil.VALID_SPECIALISATION_BOB).build();
@@ -138,7 +138,7 @@ public class AddCommandTest {
         String expectedMessage = String.format(AddCommand.MESSAGE_ADD_INFO_SUCCESS, Messages.format(editedPerson));
 
         Model expectedModel = new ModelManager(new NetworkBook(model.getNetworkBook()), new UserPrefs());
-        expectedModel.setItem(model.getFilteredPersonList().get(0), editedPerson);
+        expectedModel.setItem(model.getDisplayedPersonList().get(0), editedPerson);
 
         CommandTestUtil.assertCommandSuccess(addCommand, model, expectedMessage, expectedModel);
     }
@@ -158,7 +158,7 @@ public class AddCommandTest {
 
     @Test
     public void execute_invalidPersonIndexUnfilteredList_commandFailure() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
+        Index outOfBoundIndex = Index.fromOneBased(model.getDisplayedPersonList().size() + 1);
         AddCommand.AddPersonDescriptor descriptor =
                 new AddPersonDescriptorBuilder().build();
         AddCommand addCommand = new AddCommand(outOfBoundIndex, descriptor);

@@ -24,6 +24,8 @@ public class Course implements Identifiable<Course> {
             "Dates must always follow the DD-MM-YYYY format.";
     public static final String DATE_TIMING_CONSTRAINTS =
             "End date of the course must occur after the start date of the course!";
+    public static final String NO_COURSE_NAME = "Courses must have a name!";
+    public static final String END_DATE_WITH_NO_START = "Courses cannot have an end date without a start date!";
 
     private final String course;
     private final Optional<String> startDate;

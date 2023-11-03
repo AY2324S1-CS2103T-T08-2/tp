@@ -24,6 +24,7 @@ import networkbook.model.Model;
 import networkbook.model.NetworkBook;
 import networkbook.model.ReadOnlyNetworkBook;
 import networkbook.model.ReadOnlyUserPrefs;
+import networkbook.model.person.Email;
 import networkbook.model.person.Link;
 import networkbook.model.person.Person;
 import networkbook.testutil.PersonBuilder;
@@ -163,7 +164,7 @@ public class CreateCommandTest {
         }
 
         @Override
-        public ObservableList<Person> getFilteredPersonList() {
+        public ObservableList<Person> getDisplayedPersonList() {
             // Invoked during the create command test
             // Emulate the addition of a new Person into the list
             ObservableList<Person> listToFill = FXCollections.observableArrayList();
@@ -172,12 +173,7 @@ public class CreateCommandTest {
         }
 
         @Override
-        public void updateFilteredPersonList(Predicate<Person> predicate) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void updateSortedPersonList(Comparator<Person> comparator) {
+        public void updateDisplayedPersonList(Predicate<Person> predicate, Comparator<Person> comparator) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -188,6 +184,16 @@ public class CreateCommandTest {
 
         @Override
         public Link openLink(Index personIndex, Index linkIndex) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean isValidEmailIndex(Index personIndex, Index emailIndex) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Email openEmail(Index personIndex, Index emailIndex) {
             throw new AssertionError("This method should not be called.");
         }
     }

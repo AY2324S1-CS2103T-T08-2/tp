@@ -24,14 +24,20 @@ public class FindCommand extends Command {
 
     private final NameContainsKeyTermsPredicate predicate;
 
+    /**
+     * Constructor that instantiates a new {@code FindCommand} object.
+     * This command is not data-changing, so parent constructor is called with false.
+     * @param predicate
+     */
     public FindCommand(NameContainsKeyTermsPredicate predicate) {
+        super(false);
         this.predicate = predicate;
     }
 
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.updateFilteredPersonList(predicate);
+        model.updateDisplayedPersonList(predicate, null);
         return new CommandResult(
                 String.format(MESSAGE_SUCCESS,
                         predicate.getKeyTerms()
@@ -39,7 +45,7 @@ public class FindCommand extends Command {
                                 .reduce("", (acc, term) -> acc + " \"" + term + "\"")
                                 .trim()
                                 .replace(" ", ", "))
-                        + String.format(MESSAGE_PERSONS_FOUND_OVERVIEW, model.getFilteredPersonList().size()));
+                        + String.format(MESSAGE_PERSONS_FOUND_OVERVIEW, model.getDisplayedPersonList().size()));
     }
 
     @Override

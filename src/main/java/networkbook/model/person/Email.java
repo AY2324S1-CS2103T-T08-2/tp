@@ -63,6 +63,10 @@ public class Email implements Identifiable<Email> {
         return this.value;
     }
 
+    public String toEmailUri() {
+        return String.format("mailto:%s", this.value);
+    }
+
     @Override
     public String toString() {
         return value;

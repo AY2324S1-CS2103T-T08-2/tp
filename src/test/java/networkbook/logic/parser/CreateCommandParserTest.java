@@ -314,7 +314,7 @@ public class CreateCommandParserTest {
                         + CommandTestUtil.GRADUATION_DESC_BOB + CommandTestUtil.INVALID_COURSE_DESC
                         + CommandTestUtil.SPECIALISATION_DESC_BOB
                         + CommandTestUtil.TAG_DESC_HUSBAND + CommandTestUtil.TAG_DESC_FRIEND,
-                Course.MESSAGE_CONSTRAINTS);
+                Course.NO_COURSE_NAME);
 
         // invalid specialisation
         CommandParserTestUtil.assertParseFailure(parser,
@@ -360,7 +360,7 @@ public class CreateCommandParserTest {
         // invalid course
         CommandParserTestUtil.assertParseFailure(parser,
                 CommandTestUtil.INVALID_COURSE_DESC + validExpectedPersonString,
-                Course.MESSAGE_CONSTRAINTS);
+                Course.NO_COURSE_NAME);
 
         // invalid specialisation
         CommandParserTestUtil.assertParseFailure(parser,
@@ -387,7 +387,7 @@ public class CreateCommandParserTest {
         // invalid course
         CommandParserTestUtil.assertParseFailure(parser,
                 validExpectedPersonString + CommandTestUtil.INVALID_COURSE_DESC,
-                Course.MESSAGE_CONSTRAINTS);
+                Course.NO_COURSE_NAME);
 
         // invalid specialisation
         CommandParserTestUtil.assertParseFailure(parser,

@@ -1,7 +1,5 @@
 package networkbook.logic.parser;
 
-import java.util.stream.Stream;
-
 import networkbook.logic.Messages;
 import networkbook.logic.commands.CreateCommand;
 import networkbook.logic.parser.exceptions.ParseException;
@@ -42,7 +40,7 @@ public class CreateCommandParser implements Parser<CreateCommand> {
                         CliSyntax.PREFIX_PRIORITY
                 );
 
-        if (!arePrefixesPresent(
+        if (!ArgumentMultimap.arePrefixesPresent(
                 argMultimap,
                 CliSyntax.PREFIX_NAME
         ) || !argMultimap.getPreamble().isEmpty()) {
@@ -73,14 +71,6 @@ public class CreateCommandParser implements Parser<CreateCommand> {
                     tagList, priority);
 
         return new CreateCommand(person);
-    }
-
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 
 }

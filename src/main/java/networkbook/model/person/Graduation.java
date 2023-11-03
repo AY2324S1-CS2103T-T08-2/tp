@@ -242,4 +242,8 @@ public class Graduation implements Comparable<Graduation> {
             }
         }
     }
+
+    public int getGradYear() {
+        return semester == Semester.S1 ? acadYearStart : acadYearEnd;
+    }
 }

@@ -36,14 +36,20 @@ public class DeletePersonCommand extends Command {
 
     private final Index targetIndex;
 
+    /**
+     * Constructor that instantiates a new {@code DeletePersonCommand} object.
+     * This command is data-changing, so parent constructor is called with true.
+     * @param targetIndex is the {@code Index} of the person to delete in the displayed list.
+     */
     public DeletePersonCommand(Index targetIndex) {
+        super(true);
         this.targetIndex = targetIndex;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> lastShownList = model.getFilteredPersonList();
+        List<Person> lastShownList = model.getDisplayedPersonList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);

@@ -31,7 +31,9 @@ public class CommandTestUtil {
     public static final String VALID_EMAIL_BOB = "bob@example.com";
     public static final String VALID_LINK_AMY = "linkedin.com/in/Amy-beez";
     public static final Index VALID_LINK_INDEX_AMY = Index.fromZeroBased(0);
+    public static final Index VALID_EMAIL_INDEX_AMY = Index.fromZeroBased(0);
     public static final Index INVALID_LINK_INDEX_AMY = Index.fromZeroBased(1);
+    public static final Index INVALID_EMAIL_INDEX_AMY = Index.fromZeroBased(1);
     public static final String VALID_LINK_BOB = "github.com/bob2000";
     public static final String VALID_GRADUATION_AMY = "AY9899-S2";
     public static final String VALID_GRADUATION_FULL_AMY = "AY1998/1999 Semester 2";
@@ -163,23 +165,23 @@ public class CommandTestUtil {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
         NetworkBook expectedNetworkBook = new NetworkBook(actualModel.getNetworkBook());
-        List<Person> expectedFilteredList = new ArrayList<>(actualModel.getFilteredPersonList());
+        List<Person> expectedFilteredList = new ArrayList<>(actualModel.getDisplayedPersonList());
         assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
         assertEquals(expectedNetworkBook, actualModel.getNetworkBook());
-        assertEquals(expectedFilteredList, actualModel.getFilteredPersonList());
+        assertEquals(expectedFilteredList, actualModel.getDisplayedPersonList());
     }
     /**
      * Updates {@code model}'s filtered list to show only the person at the given {@code targetIndex} in the
      * {@code model}'s network book.
      */
     public static void showPersonAtIndex(Model model, Index targetIndex) {
-        assertTrue(targetIndex.getZeroBased() < model.getFilteredPersonList().size());
+        assertTrue(targetIndex.getZeroBased() < model.getDisplayedPersonList().size());
 
-        Person person = model.getFilteredPersonList().get(targetIndex.getZeroBased());
+        Person person = model.getDisplayedPersonList().get(targetIndex.getZeroBased());
         final String[] splitName = person.getName().fullName.split("\\s+");
-        model.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+        model.updateDisplayedPersonList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])), null);
 
-        assertEquals(1, model.getFilteredPersonList().size());
+        assertEquals(1, model.getDisplayedPersonList().size());
     }
 
 }

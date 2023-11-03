@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import networkbook.commons.core.GuiSettings;
 import networkbook.commons.core.index.Index;
 import networkbook.logic.commands.exceptions.CommandException;
+import networkbook.model.person.Email;
 import networkbook.model.person.Link;
 import networkbook.model.person.Person;
 
@@ -100,21 +101,30 @@ public interface Model {
     /**
      * Opens the link at index {@code linkIndex} in the link list of the person
      * at index {@code personIndex}.
+     * @return The link that has been opened.
      */
     Link openLink(Index personIndex, Index linkIndex) throws IOException;
-
-    /** Returns an unmodifiable view of the filtered person list */
-    ObservableList<Person> getFilteredPersonList();
+    /**
+     * Returns an unmodifiable view of the list of {@code Person} to be displayed,
+     * which are backed by the internal list of {@code versionedNetworkBook}.
+     */
+    ObservableList<Person> getDisplayedPersonList();
+    /**
+     * Updates the displayed person list to be filtered by the given {@code predicate} if {@code predicate} is not null.
+     * Also updates the displayed person list to be sorted by the given {@code comparator} if {@code comparator} is not
+     * null.
+     */
+    void updateDisplayedPersonList(Predicate<Person> predicate, Comparator<Person> comparator);
 
     /**
-     * Updates the filter of the filtered person list to filter by the given {@code predicate}.
-     * @throws NullPointerException if {@code predicate} is null.
+     * Checks if the indices for an email of a contact are valid.
      */
-    void updateFilteredPersonList(Predicate<Person> predicate);
+    boolean isValidEmailIndex(Index personIndex, Index linkIndex);
 
     /**
-     * Updates the sort of the filtered person list to sort by the given {@code comparator}.
-     * @throws NullPointerException if {@code comparator} is null.
+     * Opens email at index {@code emailIndex} in the email list of the person
+     * at index {@code personIndex}.
+     * @return The email that has been opened.
      */
-    void updateSortedPersonList(Comparator<Person> comparator);
+    Email openEmail(Index personIndex, Index linkIndex) throws IOException;
 }

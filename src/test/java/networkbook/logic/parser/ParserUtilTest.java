@@ -10,6 +10,7 @@ import java.util.Collections;
 import org.junit.jupiter.api.Test;
 
 import networkbook.logic.parser.exceptions.ParseException;
+import networkbook.model.person.Course;
 import networkbook.model.person.Email;
 import networkbook.model.person.Link;
 import networkbook.model.person.Name;
@@ -23,7 +24,7 @@ import networkbook.testutil.TypicalIndexes;
 
 public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
-    private static final String INVALID_PHONE = "+651234";
+    private static final String INVALID_PHONE = "+ 651234";
     private static final String INVALID_LINK = "facebookcom";
     private static final String INVALID_GRADUATION = "2024";
     private static final String INVALID_COURSE = "";
@@ -211,7 +212,18 @@ public class ParserUtilTest {
 
     @Test
     public void parseCourse_invalidValue_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.parseCourse(INVALID_COURSE));
+        assertThrows(ParseException.class, () -> ParserUtil.parseCourse(INVALID_COURSE, "", ""));
+    }
+
+    @Test
+    public void parseCourse_invalidDates_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseCourse(VALID_COURSE, "a", ""));
+        assertThrows(ParseException.class, () -> ParserUtil.parseCourse(VALID_COURSE, "01-01-2000", "a"));
+    }
+
+    @Test
+    public void parseCourse_startDateAfterEndDate_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseCourse(VALID_COURSE, "01-10-2000", "01-01-2000"));
     }
 
     @Test
@@ -227,6 +239,49 @@ public class ParserUtilTest {
     @Test
     public void parseCourses_collectionWithDuplicates_throwsParseException() {
         assertThrows(ParseException.class, () -> ParserUtil.parseCourses(Arrays.asList(VALID_COURSE, VALID_COURSE)));
+    }
+
+    @Test
+    public void parseCourseWithPrefixes_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseCourseWithPrefixes(null));
+    }
+
+    @Test
+    public void parseCourseWithPrefixes_invalidCourseName_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseCourseWithPrefixes(INVALID_COURSE));
+    }
+
+    @Test
+    public void parseCourseWithPrefixes_invalidDates_throwsParseException() {
+        assertThrows(ParseException.class, () ->
+                ParserUtil.parseCourseWithPrefixes(VALID_COURSE + " /start "));
+        assertThrows(ParseException.class, () ->
+                ParserUtil.parseCourseWithPrefixes(VALID_COURSE + " /start 01-01-2000 /end"));
+    }
+
+    @Test
+    public void parseCourseWithPrefixes_endDateWithNoStartDate_throwsParseException() {
+        assertThrows(ParseException.class, () ->
+                ParserUtil.parseCourseWithPrefixes(VALID_COURSE + " /end 01-01-2000"));
+    }
+
+    @Test
+    public void parseCourseWithPrefixes_duplicateStartOrEndDates_throwsParseException() {
+        assertThrows(ParseException.class, () ->
+                ParserUtil.parseCourseWithPrefixes(VALID_COURSE
+                        + " /start 01-01-2000 /start 02-02-2000"));
+        assertThrows(ParseException.class, () ->
+                ParserUtil.parseCourseWithPrefixes(VALID_COURSE
+                        + " /start 01-01-2000 /end 02-02-2000 /end 03-03-2000"));
+    }
+
+    @Test
+    public void parseCourseWithPrefixes_validCourseDescriptions_returnsCourse() throws Exception {
+        assertEquals(new Course(VALID_COURSE), ParserUtil.parseCourseWithPrefixes(VALID_COURSE));
+        assertEquals(new Course(VALID_COURSE, "01-01-2000"),
+                ParserUtil.parseCourseWithPrefixes(VALID_COURSE + " /start 01-01-2000"));
+        assertEquals(new Course(VALID_COURSE, "01-01-2000", "01-02-2000"),
+                ParserUtil.parseCourseWithPrefixes(VALID_COURSE + " /start 01-01-2000 /end 01-02-2000"));
     }
 
     @Test

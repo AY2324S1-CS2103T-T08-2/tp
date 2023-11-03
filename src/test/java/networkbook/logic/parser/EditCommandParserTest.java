@@ -131,7 +131,7 @@ public class EditCommandParserTest {
                 Graduation.MESSAGE_CONSTRAINTS); // invalid Graduating Year
         assertParseFailure(PARSER,
                 "1" + CommandTestUtil.INVALID_COURSE_DESC + CommandTestUtil.VALID_INDEX_DESC,
-                Course.MESSAGE_CONSTRAINTS); // invalid Course
+                Course.NO_COURSE_NAME); // invalid Course
         assertParseFailure(PARSER,
                 "1" + CommandTestUtil.INVALID_SPECIALISATION_DESC + CommandTestUtil.VALID_INDEX_DESC,
                 Specialisation.MESSAGE_CONSTRAINTS); // invalid Specialisation

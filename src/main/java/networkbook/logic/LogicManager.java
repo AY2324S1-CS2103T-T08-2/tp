@@ -50,6 +50,10 @@ public class LogicManager implements Logic {
         Command command = networkBookParser.parseCommand(commandText);
         commandResult = command.execute(model);
 
+        if (!command.getIsChangingData()) {
+            return commandResult;
+        }
+
         try {
             storage.saveNetworkBook(model.getNetworkBook());
         } catch (AccessDeniedException e) {
@@ -68,7 +72,7 @@ public class LogicManager implements Logic {
 
     @Override
     public ObservableList<Person> getFilteredPersonList() {
-        return model.getFilteredPersonList();
+        return model.getDisplayedPersonList();
     }
 
     @Override

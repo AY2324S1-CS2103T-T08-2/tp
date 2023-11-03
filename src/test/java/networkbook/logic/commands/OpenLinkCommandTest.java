@@ -18,12 +18,12 @@ import javafx.collections.ObservableList;
 import networkbook.commons.core.GuiSettings;
 import networkbook.commons.core.index.Index;
 import networkbook.logic.Messages;
-import networkbook.logic.commands.exceptions.CommandException;
 import networkbook.model.Model;
 import networkbook.model.ModelManager;
 import networkbook.model.ReadOnlyNetworkBook;
 import networkbook.model.ReadOnlyUserPrefs;
 import networkbook.model.UserPrefs;
+import networkbook.model.person.Email;
 import networkbook.model.person.Link;
 import networkbook.model.person.Person;
 import networkbook.testutil.TypicalIndexes;
@@ -81,11 +81,11 @@ public class OpenLinkCommandTest {
             throw new UnsupportedOperationException();
         }
 
-        public void undoNetworkBook() throws CommandException {
+        public void undoNetworkBook() {
             throw new UnsupportedOperationException();
         }
 
-        public void redoNetworkBook() throws CommandException {
+        public void redoNetworkBook() {
             throw new UnsupportedOperationException();
         }
 
@@ -97,15 +97,20 @@ public class OpenLinkCommandTest {
             throw new IOException();
         }
 
-        public ObservableList<Person> getFilteredPersonList() {
-            return TypicalPersons.getTypicalNetworkBook().getPersonList();
-        }
-
-        public void updateFilteredPersonList(Predicate<Person> predicate) {
+        public boolean isValidEmailIndex(Index personIndex, Index emailIndex) {
             throw new UnsupportedOperationException();
         }
 
-        public void updateSortedPersonList(Comparator<Person> comparator) {
+        public Email openEmail(Index personIndex, Index emailIndex) {
+            throw new UnsupportedOperationException();
+        }
+
+        public ObservableList<Person> getDisplayedPersonList() {
+            return TypicalPersons.getTypicalNetworkBook().getPersonList();
+        }
+
+        @Override
+        public void updateDisplayedPersonList(Predicate<Person> predicate, Comparator<Person> comparator) {
             throw new UnsupportedOperationException();
         }
     };

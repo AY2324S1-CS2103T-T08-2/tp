@@ -55,9 +55,9 @@ public class FindCommandTest {
                 + String.format(FindCommand.MESSAGE_PERSONS_FOUND_OVERVIEW, 0);
         NameContainsKeyTermsPredicate predicate = preparePredicate(" ");
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
+        expectedModel.updateDisplayedPersonList(predicate, null);
         CommandTestUtil.assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredPersonList());
+        assertEquals(Collections.emptyList(), model.getDisplayedPersonList());
     }
 
     @Test
@@ -66,9 +66,9 @@ public class FindCommandTest {
                 + String.format(FindCommand.MESSAGE_PERSONS_FOUND_OVERVIEW, 0);
         NameContainsKeyTermsPredicate predicate = preparePredicate("Ulfred");
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
+        expectedModel.updateDisplayedPersonList(predicate, null);
         CommandTestUtil.assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredPersonList());
+        assertEquals(Collections.emptyList(), model.getDisplayedPersonList());
     }
 
     @Test
@@ -77,9 +77,9 @@ public class FindCommandTest {
                 + String.format(FindCommand.MESSAGE_PERSONS_FOUND_OVERVIEW, 0);
         NameContainsKeyTermsPredicate predicate = preparePredicate("Ulfred  Snyder");
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
+        expectedModel.updateDisplayedPersonList(predicate, null);
         CommandTestUtil.assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredPersonList());
+        assertEquals(Collections.emptyList(), model.getDisplayedPersonList());
     }
 
     @Test
@@ -88,11 +88,11 @@ public class FindCommandTest {
                 + String.format(FindCommand.MESSAGE_PERSONS_FOUND_OVERVIEW, 1);
         NameContainsKeyTermsPredicate predicate = preparePredicate("Fiona");
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
+        expectedModel.updateDisplayedPersonList(predicate, null);
         CommandTestUtil.assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(
                 Arrays.asList(TypicalPersons.FIONA),
-                model.getFilteredPersonList()
+                model.getDisplayedPersonList()
         );
     }
 
@@ -102,11 +102,11 @@ public class FindCommandTest {
                 + String.format(FindCommand.MESSAGE_PERSONS_FOUND_OVERVIEW, 1);
         NameContainsKeyTermsPredicate predicate = preparePredicate("Fiona   Kunz");
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
+        expectedModel.updateDisplayedPersonList(predicate, null);
         CommandTestUtil.assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(
                 Arrays.asList(TypicalPersons.FIONA),
-                model.getFilteredPersonList()
+                model.getDisplayedPersonList()
         );
     }
 
@@ -116,11 +116,11 @@ public class FindCommandTest {
                 + String.format(FindCommand.MESSAGE_PERSONS_FOUND_OVERVIEW, 2);
         NameContainsKeyTermsPredicate predicate = preparePredicate("Ku");
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
+        expectedModel.updateDisplayedPersonList(predicate, null);
         CommandTestUtil.assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(
                 Arrays.asList(TypicalPersons.CARL, TypicalPersons.FIONA),
-                model.getFilteredPersonList()
+                model.getDisplayedPersonList()
         );
     }
 
@@ -130,11 +130,11 @@ public class FindCommandTest {
                 + String.format(FindCommand.MESSAGE_PERSONS_FOUND_OVERVIEW, 3);
         NameContainsKeyTermsPredicate predicate = preparePredicate("Kurz Elle Kunz");
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
+        expectedModel.updateDisplayedPersonList(predicate, null);
         CommandTestUtil.assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(
                 Arrays.asList(TypicalPersons.CARL, TypicalPersons.ELLE, TypicalPersons.FIONA),
-                model.getFilteredPersonList()
+                model.getDisplayedPersonList()
         );
     }
 

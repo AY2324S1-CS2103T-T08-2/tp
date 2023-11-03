@@ -70,7 +70,7 @@ public class AddCommandParserTest {
                 Graduation.MESSAGE_CONSTRAINTS); // invalid Graduating Year
         assertParseFailure(parser,
                 "1" + CommandTestUtil.INVALID_COURSE_DESC,
-                Course.MESSAGE_CONSTRAINTS); // invalid Course
+                Course.NO_COURSE_NAME); // invalid Course
         assertParseFailure(parser,
                 "1" + CommandTestUtil.INVALID_SPECIALISATION_DESC,
                 Specialisation.MESSAGE_CONSTRAINTS); // invalid Specialisation

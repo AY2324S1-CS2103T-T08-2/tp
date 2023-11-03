@@ -13,8 +13,9 @@ public class Phone implements Identifiable<Phone> {
 
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Phone numbers should only contain numbers, and it should be at least 3 digits long";
-    public static final String VALIDATION_REGEX = "\\d{3,}";
+            "Phone numbers should only contain numbers (and country code with \"+\" in front if applicable), "
+            + "and it should be at least 3 digits long";
+    public static final String VALIDATION_REGEX = "^(\\+\\d{1,3}\\s?)?\\d{3,}";
     public final String value;
 
     /**

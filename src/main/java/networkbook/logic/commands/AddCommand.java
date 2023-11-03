@@ -1,7 +1,6 @@
 package networkbook.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static networkbook.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
 import java.util.Objects;
@@ -37,10 +36,10 @@ public class AddCommand extends Command {
             + "Parameters: [LIST INDEX OF CONTACT]"
             + "[" + CliSyntax.PREFIX_PHONE + " PHONE] "
             + "[" + CliSyntax.PREFIX_EMAIL + " EMAIL] "
-            + "[" + CliSyntax.PREFIX_LINK + "LINK] "
+            + "[" + CliSyntax.PREFIX_LINK + " LINK] "
             + "[" + CliSyntax.PREFIX_GRADUATION + " GRADUATION DATE] "
-            + "[" + CliSyntax.PREFIX_COURSE + "COURSE OF STUDY] "
-            + "[" + CliSyntax.PREFIX_SPECIALISATION + "SPECIALISATION] "
+            + "[" + CliSyntax.PREFIX_COURSE + " COURSE OF STUDY] "
+            + "[" + CliSyntax.PREFIX_SPECIALISATION + " SPECIALISATION] "
             + "[" + CliSyntax.PREFIX_TAG + " TAG] "
             + "[" + CliSyntax.PREFIX_PRIORITY + " PRIORITY]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
@@ -59,11 +58,13 @@ public class AddCommand extends Command {
 
     /**
      * Creates an AddCommand to add information about the contact at {@code Index}
+     * This command is data-changing, so parent constructor is called with true.
      *
      * @param index of the contact to add information about
      * @param addPersonDescriptor details to add to the contact
      */
     public AddCommand(Index index, AddPersonDescriptor addPersonDescriptor) {
+        super(true);
         requireNonNull(index);
         requireNonNull(addPersonDescriptor);
 
@@ -74,15 +75,15 @@ public class AddCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         assert model != null : "Model should not be null";
-        List<Person> lastShownList = model.getFilteredPersonList();
+        List<Person> lastShownList = model.getDisplayedPersonList();
         if (index.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
         Person personToAddInfo = lastShownList.get(index.getZeroBased());
         Person personAfterAddingInfo = addInfoToPerson(personToAddInfo, addPersonDescriptor);
         model.setItem(personToAddInfo, personAfterAddingInfo);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_ADD_INFO_SUCCESS, Messages.format(personAfterAddingInfo)));
+
     }
 
     /**
@@ -214,12 +215,13 @@ public class AddCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(graduation, tags, priority)
+            return CollectionUtil.isAnyNonNull(graduation, priority)
                     || (phones != null && !phones.isEmpty())
                     || (emails != null && !emails.isEmpty())
                     || (links != null && !links.isEmpty())
                     || (courses != null && !courses.isEmpty())
-                    || (specialisations != null && !specialisations.isEmpty());
+                    || (specialisations != null && !specialisations.isEmpty())
+                    || (tags != null && !tags.isEmpty());
         }
 
         public void setPhones(UniqueList<Phone> phones) {
